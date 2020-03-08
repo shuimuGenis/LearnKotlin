@@ -15,4 +15,12 @@
         android:text="跳转到学习day6"
         android:textSize="14sp" />
 
+    <Button
+        android:id="@+id/Go2StudyCoroutine"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="5dp"
+        android:text="开始学习携程知识"
+        android:textSize="14sp" />
+
 </com.example.kotlin.TxtFrameLayout>

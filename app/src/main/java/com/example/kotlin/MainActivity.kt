@@ -7,21 +7,32 @@ import android.os.Bundle
 import android.support.annotation.RequiresApi
 import android.util.Log
 import android.util.Log.i
+import android.view.View
 import com.example.java2kotlin.SAmTest
+import com.example.kotlin.coroutine.CoroutineActivity
 import com.example.kotlin.day06.TestDemoDay6Actiity
 import kotlinx.android.synthetic.main.activity_main.*
 
 
-class MainActivity : Activity() {
+class MainActivity : Activity(), View.OnClickListener {
+    override fun onClick(p0: View?) {
+        var intent: Intent? = null
+        p0?.apply {
+            if (R.id.go_to_day06 == id) {
+                intent = Intent(this@MainActivity, TestDemoDay6Actiity::class.java)
+            } else if (R.id.Go2StudyCoroutine == id) {
+                intent = Intent(this@MainActivity, CoroutineActivity::class.java)
+            }
+        }
+        intent?.also{ startActivity(intent) }
+    }
 
     @RequiresApi(Build.VERSION_CODES.N)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        go_to_day06.setOnClickListener {
-            var intent = Intent(this@MainActivity, TestDemoDay6Actiity::class.java)
-            startActivity(intent)
-        }
+        go_to_day06.setOnClickListener(this)
+        Go2StudyCoroutine.setOnClickListener(this)
         i("zui", "hello world ")
         /*kotlin 中定义变量格式 var 变量名:变量类型 = 变量值。
         * Kotlin中变量默认是不可以为null的，默认是必须赋值的，但是我们可以通过"?"符号类设置能够为null的变量
