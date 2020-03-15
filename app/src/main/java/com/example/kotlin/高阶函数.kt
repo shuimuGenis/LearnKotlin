@@ -115,8 +115,7 @@ data class APerson(val name: String, val age: Int)
  * 科里化：把多个函数的操作转化成 单个一系列的函数去使用。
  * 能够实现科里化 完全是因为kotlin函数的返回值可以是一个函数。
  */
-internal fun cerryTest(tag: String) =
-    fun(msg: String) = Log.i("[${Thread.currentThread().name}]${tag}", msg)
+fun cerryTest(tag: String) = fun(msg: String) = Log.i("[${Thread.currentThread().name}]${tag}", msg)
 
 /**
  * 这样就可以省略，tag前缀。执行传入内容部分即可

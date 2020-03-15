@@ -15,7 +15,7 @@ import kotlin.coroutines.suspendCoroutine
 /**
  * @author shuimu{lwp}
  * @time 2019/8/14  11:59
- * @desc
+ * @desc 不使用kotlin轻量级协程框架的情况下，如果自己定义协程框架
  */
 
 /**
@@ -44,6 +44,26 @@ suspend fun 开始下载图片(url: String): Bitmap {
             } catch (e: Exception) {
                 it.resumeWithException(e)
             }
-        }.executor()
+        }()
     }
+}
+
+/**上面是演示了一个正常的协程使用逻辑.但是我们不可能每次都来 定义一个suspend方法，然后每次都返回一个susendCoroutineh函数啊,因此对这个方法进行抽取*/
+
+suspend fun <T> 我要开始异步了(block: () -> T) = suspendCoroutine<T> {
+    AsynTask {
+        try {
+            it.resume(block())
+        } catch (e: Exception) {
+            it.resumeWithException(e)
+        }
+    }()
+}
+
+fun 我要进行图片下载了(url: String): Bitmap {
+    val urlConnection = URL(url).openConnection() as HttpURLConnection
+    if (urlConnection.responseCode == 200) {
+        return BitmapFactory.decodeStream(urlConnection.inputStream)
+    }
+    throw java.lang.NullPointerException("错误的图片")
 }

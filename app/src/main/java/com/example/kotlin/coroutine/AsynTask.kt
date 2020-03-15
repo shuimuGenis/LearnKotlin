@@ -11,8 +11,6 @@ val pool by lazy {
     Executors.newCachedThreadPool()
 }
 
-class AsynTask(val block: () -> Unit) {
-    fun executor() {
-        pool.execute(block)
-    }
+fun AsynTask(block: () -> Unit) = fun() {
+    pool.execute(block)
 }
