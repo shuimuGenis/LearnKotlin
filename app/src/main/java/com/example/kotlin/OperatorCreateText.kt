@@ -45,9 +45,15 @@ class CreateOperate {
 注意：扩展方法不可以定义在 类的内部 如果定义的扩展方法无效，检查是否不小心把扩展方法写在类里面了
 
  拓展函数本质上是 静态函数。
+ 在这个拓展函数的定义中 fun String.cxIsNotEmpty(): Boolean {return this.isNotEmpty()}
+  String是接收者类型,this是接收者类型的对象，
+ 我们说 kotlin的拓展函数本质上是静态函数,那么编译生成的java代码是怎样的呢?编译生成的java静态方法大概是这样的：
+ public static Boolean cxIsNotEmpty(String obj){ obj.isNotEmpty}
+ 可以看到,kotlin生成的java代码静态函数,为了实现在任意对象中增加拓展方法,一定会有"第一个参数的类型是 接收者类型,传入接收者类型的对象，内部代码也只是调用接收者对象的方法而已"
+ 根据生成的java代码原型,可知：拓展函数是不能被子类重写的..因为它是静态方法不属于对象
  */
 fun String.cxIsNotEmpty(): Boolean {
-    return length > 0
+    return this.isNotEmpty()
 }
 
 /**
