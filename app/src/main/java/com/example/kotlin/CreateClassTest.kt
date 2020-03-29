@@ -1,3 +1,5 @@
+@file:JvmName("CreateClass")
+
 package com.example.kotlin
 
 import android.util.Log
@@ -13,6 +15,11 @@ import android.util.Log
  * 定义在文件中的函数是顶层函数(全局函数)，定义在类中的函数是普通的类函数
  * 顶层函数默认是public static。因此任何地方都可以使用它
  * 顶层函数用来替代java中的那些存放了 很多静态方法的工具类。
+ * kotlin中顶层函数调用只需要导入该函数的包名就可以使用了,java中对于kotlin的顶层函数是怎样调用的呢？kotlin的顶层函数在jvm中实际上会自动编译生成一个类，
+ * 类名为"kotlin文件名+kt",所以在java中调用顶层函数就是  "kotlin文件名+kt".函数名(参数列表) 的方式调用。顶级属性同理。
+ *
+ * 因为对于kotlin的顶级函数，编译器会自动生成"kotlin文件名+kt" 的类,所以当我们修改类名的时候,编译器就重新生成对应的 "kotlin文件名+kt" 类,那么如何固定编译器生成的对应的
+ * "kotlin文件名+kt" 类呢?... 在该文件的第一行添加这样的写法： @file:JvmName("你想要的类名")  这样 就可以固定编译器生成的类名了。
  */
 //topFun方法就是一个顶层函数，定义在文件中，而不是类中
 fun topFun() {}
