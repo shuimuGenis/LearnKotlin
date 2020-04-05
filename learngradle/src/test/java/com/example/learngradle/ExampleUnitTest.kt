@@ -1,4 +1,4 @@
-package com.example.kotlinapp
+package com.example.learngradle
 
 import org.junit.Test
 

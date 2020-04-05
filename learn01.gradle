@@ -1,0 +1,153 @@
+/**
+ * 第一知识点：声明周期
+ * 无论什么时候执行gradle,都会运行三个不同的生命周期阶段。 初始化、配置、执行。
+ *
+ * 初始化（Initialization） 【Setting.gradle文件就是在该阶段执行】
+ * Gradle为每个项目创建一个Project实例，在多项目构建中，Gradle会找出哪些项目依赖需要参与到构建中。
+ *
+ * 配置（Configuration） 【所有直接写在build.gradle文件和Task.configure 里面的代码,除了明确是写在task的action里的代码外,都会在这个阶段执行】
+ * 执行所有项目的构建脚本，也就是执行每个项目的build.gradle文件。这里需要注意的是，task里的配置代码也会在这个阶段执行。
+ *
+ * 执行（Execution） 【执行指定的task任务,按照该task的依赖以及配置的顺序去执行task中的action。】
+ * Gradle按照依赖顺序依次执行task。
+ * */
+
+/***
+ * 第二知识点 task任务相关
+ *
+ * Gradle中执行的最小单位是task。
+ *
+ * 创建task的语法：
+ * (1) task 任务名 { 配置代码 }*
+ * (2) project.tasks.create("任务名"){配置代码}*  ....
+ * gradle中传教task的方式很多.就记住这两个常用的。
+ *
+ * task的常用属性：name(任务名),type(父Task),group(所属分组),description(该任务的描述),dependsOn(该task所依赖的task集合),constructorArgs(构造器的参数)
+ * 这些常用的属性都会有对应的getter/setter方法..
+ *
+ * task中除了上面这些常用属性的方法外，还有一下常用的方法
+ * configure(configure:Clouse) -->task的配置方法,
+ * doLast(Clouse)/dofirst(Clouse)-->action方法
+ * getActions()-->返回该Task中所有的Action
+ * getInput()/getOutput()--->task的流操作的方法。就是文件流啦
+ * setOnly(Clouse):Boolean -->task的条件判断方法。当该闭包返回true时才执行这个task中的Action。
+ * */
+
+/***
+ * 声明变量
+ */
+def groupDef = "leanGradle"
+
+task myTask01 {
+    /**
+     * 设置该任务的分组
+     */
+    group = "${groupDef}"
+    println "myTask01 ：测试代码, 我将会在配置阶段执行"
+    doLast {
+        println "myTask01 ：group:${group}"
+    }
+}
+
+/**
+ * 在project中，task时由TaskContainer进行统一管理的。我们可以通过Project的getTask()方法来获取TaskContainer对象。
+ * TaskContainer的常用方法为
+ * findByPaht("Task的Path属性值")-->传入指定的Task的Path属性值,找到对应的Task对象。
+ * getByPath("Task的Path属性值")-->传入指定的Task的Path属性值,找到对应的Task对象。
+ * getByName("Task的Name属性值")-->传入指定的Task的Name属性值,找到对应的Task对象。
+ * withType("传入Task的父Task类型")-->传入指定的Task的父Task类型,找到该类型子类的所有Task集合。
+ *
+ * */
+
+project.tasks.create("myTask02") {
+    /**
+     * 设置该任务的分组
+     */
+    group = "${groupDef}"
+    println "myTask02 ：测试代码, 我将会在配置阶段执行 path=${path}"
+    /**
+     * doLast是在task执行完之后执行
+     */
+    doLast {
+        println "myTask02 ：group:${group}"
+    }
+
+    doLast {
+        //获取TaskContainer对象
+        def tasks = getTasks()
+        //根据Task的Path属性值查找Task
+        Task findOne = tasks.findByPath(":myTask02")
+        println "findOne name =${findOne.name},group =${findOne.group}"
+        //根据task的Name属性值查找Task
+        Task byName = tasks.getByName("myTask02")
+        println "byName name =${byName.name},group =${byName.group}"
+    }
+}
+
+/***
+ * 第三知识点 project 相关
+ * 每个 build.gradle 文件都会生成一个 Project 对象；settings.gradle 文件，生成一个 Settings对象。
+ * project的常用属性：
+ * buildDir(默认是 与 当前的 build.gradle文件路径的同一级目录下的build文件)
+ * 【注意:learn01.gradle是被引入进 根本目录的build.gradle文件中的,相当于 learn01.gradle的代码都是写在该Build.gradle文件中,因此buildDir与它是同一目录级别】
+ * name(当前project的名字,默认是当前gradle所在文件夹的名称)
+ * description(当前project的描述)
+ * path(当前project的path)
+ * version("参数是任意对象,该对象必须有toString()方法"，当我们获取值的时候,会调用该任意对象的toString()方法获取值)
+ * group(设置project的分组)
+ * projectDir(设置当前project的路径,默认是 当前build.gradle文件所在的路径)
+ * rootDir(就是指当前这个Build.gradle所在的目录的绝对路径)
+ * rootProject(获取根项目的project对象,但是如果本身就是rootProject的话,该属性就为null.调用该方法很可能报错)
+ * 以上这些常用的属性都有对应的getter/setter方法，接下来是常用方法
+ *
+ * mkdir("文件绝对路径") -->创建的是一个文件夹
+ * delete("文件绝对路径")-->删除指定的文件
+ * file("文件绝对路径")-->获取单个文件
+ * files("文件绝对路径,文件绝对路径,....")-->获取多个文件
+ * dependencies(Clouse)-->用于管理当前project的依赖
+ * configurations(Clouse)-->对当前project进行配置。
+ *
+ * 如果我们想获取某个project对象,则可以通过Project的构造方法去传教一个对象,然后操作它
+ * project("project的path属性值")
+ * project("project的path属性值",Clouse)
+ * 这种方式通常用在,当我们想在 根project中 对 某个确定的子project 进行配置的时候使用
+ * allprojects(Clouse)-->可以针对项目中所有包括 自身以及其子project 进行配置
+ * subprojects(Clouse)-->可以针对项目中 该project所有子project进行配置,不包括自身。
+ *
+ * project的 ext拓展属性是特别的属性.该属性可以被project自身 以及其子project进行引用获取数值。
+ * apply from:"脚本路径"-->引用某个gradle脚本
+ * apply plugin:"插件ID"--->根据id引用某个插件
+ * 而 一般我们想要使用某个插件
+ * （1）声明要使用某个插件(2)标识清楚 插件从什么地方下载。
+ * a.先在根project的dependence中 classpath属性中声明要使用的插件
+ * b.然后在根project的repositories中写上存放该插件的maven仓库
+ * 完成以上两步,即可在子project中通过 apply plugin：插件ID 的方式使用插件了。
+ * 插件ID是每个插件自己会标识的..它们会在该插件的官网说明这个插件ID是什么。
+ *
+ * gradle.properties文件
+ * gradle插件 会自动加载当前build.gradle文件同级目录下的gradle.prepreties文件,所以可以直接使用gradle.properties文件中配置的信息。
+ * 【注意：如果我们自定义一个properties文件且名称不叫gradle.properties，那么gradle插件是无法自动加载的,要进行主动加载properties文件才行】
+ * 主动加载properties文件的方法：
+ * def properties = new Properties()
+ * properties.load(new FileInputStream("文件的绝对路径/相对路径")) -->相对路径是 相对于当前build.gradler文件的目录路径
+ * properties.getProperty("变量名")
+ */
+/*configurations {
+    File file = mkdir("$buildDir/test")
+    println "test.txt is extist:${file.exists()}"
+    delete("$buildDir/test")
+    println "test.txt is extist:${file.exists()}"
+}*/
+
+task myTask03 {
+    group = "${groupDef}"
+    //因为一个build.gradle文件对应一个project对象。
+    println "myTask03 project name ${this.name},buildDir=${this.buildDir},project=${this}"
+
+    doLast{
+        //演示 主动加载 属性文件的方法
+        def properties = new Properties()
+        properties.load(new FileInputStream("gradle.properties"))
+        println " username: ${properties.getProperty("username")}"
+    }
+}
