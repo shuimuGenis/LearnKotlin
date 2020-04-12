@@ -1,6 +1,11 @@
 apply plugin: 'com.android.application'
 
-apply from:'learn02.gradle'
+/**
+ * 注意：在apply from:'learn02.gradle' 代码中,其中的相对路径。我们指定learn02.gradle与当前这个build.gradle文件是统一目录。
+ * 在window中,就可以这样写:'learn02.gradle' 或者 '/learn02.gradle',两者等价.
+ * 但是在Mac,linux中，这样写：'learn02.gradle' 会找不到文件,必须是这样：'/learn02.gradle',才能找到。
+ */
+apply from:'/learn02.gradle'
 android {
     compileSdkVersion 29
     buildToolsVersion "29.0.3"
