@@ -1,8 +1,8 @@
 package com.example.kotlin
 
 import android.os.Build
-import android.support.annotation.RequiresApi
 import android.util.Log
+import androidx.annotation.RequiresApi
 import kotlin.reflect.full.memberProperties
 import kotlin.reflect.full.primaryConstructor
 import kotlin.reflect.jvm.javaConstructor

@@ -1,7 +1,7 @@
 package com.example.kotlin.day06
 
 import android.os.Bundle
-import android.support.v7.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatActivity
 import com.example.kotlin.R
 import com.example.kotlin.logInstance
 

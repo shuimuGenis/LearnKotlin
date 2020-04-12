@@ -4,10 +4,10 @@ import android.app.Activity
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
-import android.support.annotation.RequiresApi
 import android.util.Log
 import android.util.Log.i
 import android.view.View
+import androidx.annotation.RequiresApi
 import com.example.java2kotlin.SAmTest
 import com.example.kotlin.coroutine.CoroutineActivity
 import com.example.kotlin.day06.TestDemoDay6Actiity

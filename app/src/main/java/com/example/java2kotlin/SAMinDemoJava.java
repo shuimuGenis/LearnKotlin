@@ -2,6 +2,9 @@ package com.example.java2kotlin;
 
 import android.util.Log;
 
+
+import com.example.kotlin.Example;
+
 import java.util.ArrayList;
 
 public class SAMinDemoJava {
@@ -15,5 +18,6 @@ public class SAMinDemoJava {
     public void removeTask(Runnable run) {
         runnableList.remove(run);
         Log.i("zui", "runnable list count by remove " + runnableList.toString());
+        Example.cxIsNotEmpty("wojius");
     }
 }

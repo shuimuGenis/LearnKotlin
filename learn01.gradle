@@ -2,10 +2,10 @@
  * 第一知识点：声明周期
  * 无论什么时候执行gradle,都会运行三个不同的生命周期阶段。 初始化、配置、执行。
  *
- * 初始化（Initialization） 【Setting.gradle文件就是在该阶段执行】
- * Gradle为每个项目创建一个Project实例，在多项目构建中，Gradle会找出哪些项目依赖需要参与到构建中。
+ * 初始化（Initialization） 【Setting.gradle文件就是在该阶段执行,并且生成setting对象】
+ * Gradle为每个build.gradle文件创建一个Project实例，在多项目构建中，Gradle会找出哪些项目依赖需要参与到构建中。
  *
- * 配置（Configuration） 【所有直接写在build.gradle文件和Task.configure 里面的代码,除了明确是写在task的action里的代码外,都会在这个阶段执行】
+ * 配置（Configuration） 【所有直接写在 “build.gradle文件,Task.configure 里面,buildScripts代码块” 中的代码,除了明确是写在task的action里的代码外,都会在这个阶段执行】
  * 执行所有项目的构建脚本，也就是执行每个项目的build.gradle文件。这里需要注意的是，task里的配置代码也会在这个阶段执行。
  *
  * 执行（Execution） 【执行指定的task任务,按照该task的依赖以及配置的顺序去执行task中的action。】
@@ -52,7 +52,7 @@ task myTask01 {
 /**
  * 在project中，task时由TaskContainer进行统一管理的。我们可以通过Project的getTask()方法来获取TaskContainer对象。
  * TaskContainer的常用方法为
- * findByPaht("Task的Path属性值")-->传入指定的Task的Path属性值,找到对应的Task对象。
+ * findByPath("Task的Path属性值")-->传入指定的Task的Path属性值,找到对应的Task对象。
  * getByPath("Task的Path属性值")-->传入指定的Task的Path属性值,找到对应的Task对象。
  * getByName("Task的Name属性值")-->传入指定的Task的Name属性值,找到对应的Task对象。
  * withType("传入Task的父Task类型")-->传入指定的Task的父Task类型,找到该类型子类的所有Task集合。
@@ -131,6 +131,16 @@ project.tasks.create("myTask02") {
  * def properties = new Properties()
  * properties.load(new FileInputStream("文件的绝对路径/相对路径")) -->相对路径是 相对于当前build.gradler文件的目录路径
  * properties.getProperty("变量名")
+ *
+ * 在project中使用代理会有很多
+ * buildscript(Closure)在Project中调用，通过ScriptHandler来执行Closure
+ * repositories(Closure)在ScriptHandler中调用，通过RepositoryHandler来执行Closure
+ * dependencies(Closure)在ScriptHandler中调用，通过DependencyHandler来执行Closure
+ *
+ * 补充知识点【project的监听】
+ * beforeEvaluate(Closure)--->在配置阶段开始之前，初始化阶段和配置阶段之间的监听.这里要注意,因为是配置之前的监听,因此必须写在父类的中,写在本类是无法监听的。
+ * afterEvaluate(Closure)--->在配置阶段之后，在执行阶段之前执行的监听
+ * project.gradle.buildFinished(Closure)--->在gradle生命周期完之后的监听
  */
 /*configurations {
     File file = mkdir("$buildDir/test")
@@ -138,6 +148,7 @@ project.tasks.create("myTask02") {
     delete("$buildDir/test")
     println "test.txt is extist:${file.exists()}"
 }*/
+
 
 task myTask03 {
     group = "${groupDef}"
@@ -149,5 +160,7 @@ task myTask03 {
         def properties = new Properties()
         properties.load(new FileInputStream("gradle.properties"))
         println " username: ${properties.getProperty("username")}"
+        //演示 直接使用 gradle加载的userid
+        println "gradler.property的 userid :${userId}"
     }
 }

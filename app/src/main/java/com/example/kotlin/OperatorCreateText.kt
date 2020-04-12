@@ -1,3 +1,5 @@
+@file:JvmName("Example")
+
 package com.example.kotlin
 
 import android.util.Log

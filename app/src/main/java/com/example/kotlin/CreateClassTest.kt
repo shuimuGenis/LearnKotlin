@@ -101,7 +101,6 @@ class Person constructor(val name: String, val age: Int) {
         var GROUP_NAME: String = "groupName"
     }
 
-
 }
 
 data class User(val userId: String, val serType: String, val userUniqueId: String)

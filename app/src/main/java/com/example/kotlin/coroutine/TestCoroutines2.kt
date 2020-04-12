@@ -5,7 +5,6 @@ import android.widget.ImageView
 import com.example.kotlin.R
 import com.example.kotlin.logInstance
 import kotlinx.coroutines.*
-import kotlinx.coroutines.android.Main
 
 /**
  * @author shuimu{lwp}

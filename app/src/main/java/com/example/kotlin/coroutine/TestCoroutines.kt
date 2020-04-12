@@ -4,7 +4,6 @@ import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import com.example.kotlin.logInstance
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.android.Main
 import java.net.HttpURLConnection
 import java.net.URL
 import kotlin.coroutines.resume
