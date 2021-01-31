@@ -1,4 +1,6 @@
 apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
 
 /**
  * 注意：在apply from:'learn02.gradle' 代码中,其中的相对路径。我们指定learn02.gradle与当前这个build.gradle文件是统一目录。
@@ -7,14 +9,14 @@ apply plugin: 'com.android.application'
  */
 apply from:'/learn02.gradle'
 android {
-    compileSdkVersion 29
+    compileSdkVersion 28
     buildToolsVersion "29.0.3"
 
 
     defaultConfig {
         applicationId "com.example.learngradle"
         minSdkVersion 16
-        targetSdkVersion 29
+        targetSdkVersion 28
         versionCode 1
         versionName "1.0"
 
@@ -30,7 +32,6 @@ android {
 }
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'

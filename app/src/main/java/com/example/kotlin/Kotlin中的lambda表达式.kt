@@ -19,6 +19,9 @@ import java.util.*
  * val/var 函数名 : (参数名1:参数1类型, 参数名2：参数2类型, ...) -> 返回值类型 = { 参数1, 参数2, ... -> 函数体 }
  * 返回值类型自动推导：
  * val/var 函数名 = { 参数1:类型1, 参数2:类型2, ... -> 函数体 }
+ * 示例：
+ * val sum = { x: Int, y: Int -> x + y; } // 常量sum被自动推导类型为: (x:Int,y:Int)->Int 的匿名函数。
+ *
  * 参数只有一个的时候，可以用it关键字代替该参数
  * val/var 函数名={
  *   it.参数的各种方法()
@@ -26,8 +29,6 @@ import java.util.*
  * }
  * 无参数形式为：
  * val/var 函数名 = { 函数体 }
- * 示例：
- * val sum = { x: Int, y: Int -> x + y; } // 常量sum被自动推导类型为: (x:Int,y:Int)->Int 的匿名函数。
  *
  * (x:Int,y:Int)->Boolean 我们可以理解为：两层意思:(1)你可以传入一个有两个Int类型参数且返回值是Boolean类型的函数(2)你可以传入一个两个Int类型参数且返回值是Boolean类型表达式
  *
@@ -72,7 +73,7 @@ class lambdaTest {
     fun testLambdaA() {
         // inline关键字，因此 lambda表达式的reture将会直接退出testLambdaA()方法，去过去掉inline关键字，那就无法影响了。
         lamdbA {
-            logInstance("我是lambda表达式,我不能使用return关键字，我只能使用  return@lamdbA")
+            logInstance("我是lambda表达式, return@lamdbA")
             return
         }
         logInstance("打印了吗")

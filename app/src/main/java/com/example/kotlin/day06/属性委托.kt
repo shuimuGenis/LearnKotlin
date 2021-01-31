@@ -110,7 +110,7 @@ class Product {
 /**在kotlin的委托中还有一种特殊的委托，lazy委托---》 数据只在第一次被访问的时候被初始化，无法初始化第二次，因此只能与val修饰的属性配合使用。
  * lazy()是一个全局方法，参数需要传入一个匿名函数() -> T。
  * lazy函数是系统定义的函数，只允许初始化一次，因此 必须是val修饰
- * 注意: lazyinit 修饰var  lazy函数 修饰val...两者都是延迟初始化属性。
+ * 注意:lateinit 修饰var  lazy函数 修饰val...两者都是延迟初始化属性。
  * */
 data class Book(var name: String, var prive: Double)
 

@@ -13,9 +13,9 @@ class CollectionOperationTest {
         Log.i("zui", varargeCollectionList.toString())
         //创建一个 可变的 list集合
         val nList = mutableListOf<String>()
-        nList.add("李锦")
+        nList.add("无奈")
         nList.add("我")
-        nList.add("喜欢你")
+        nList.add("真的累啊")
         //循环数组
         for ((index, item) in nList.withIndex()) {
             Log.i("zui", "list index $index list item $item")

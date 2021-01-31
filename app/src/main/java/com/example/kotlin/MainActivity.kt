@@ -69,7 +69,7 @@ class MainActivity : Activity(), View.OnClickListener {
           var 数组变量名:Array<数组类型> = arrayOf(vararg elements:String)
           vararg关键字表示 可变参数的  elements将会是最后 可变参数所生产的数组的变量引用。
          */
-        var strArr: Array<String> = arrayOf("你", "真的", "很漂亮啊", "李锦")
+        var strArr: Array<String> = arrayOf("你", "真的", "很可爱啊", "天使")
         /*
          *上面是 最简单的数组创建方式，也是常用的一种。不过对于kotlin内的基本数据类型，也封装了对于的数组。
          *所有的基本数据类型 的数组 其实都是对 Array类型进行的封装而已。
@@ -171,6 +171,7 @@ class MainActivity : Activity(), View.OnClickListener {
 
         //单利类使用 很简单 直接用类名即可。因为构造方法是是私有化的
         var singleInstance = VideoManage
+
 
         //静态内部类的初始化
         var staticInnerClassInstance = OutTestClass.innerTestClass()

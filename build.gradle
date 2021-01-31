@@ -44,15 +44,17 @@ subprojects {
     apply plugin: 'com.android.application'
     def contains = name.contains("app")
     dependencies {
-        if (!contains) {
+        if (contains) {
             implementation "io.reactivex.rxjava2:rxjava:2.2.0"
             implementation "io.reactivex.rxjava2:rxandroid:2.0.2"
         }
-
         implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 
         implementation 'androidx.appcompat:appcompat:1.1.0'
         implementation 'androidx.core:core-ktx:1.2.0'
         implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
     }
+}
+task clean(type: Delete) {
+    delete rootProject.buildDir
 }
