@@ -34,6 +34,13 @@ class MainActivity : Activity(), View.OnClickListener {
         go_to_day06.setOnClickListener(this)
         Go2StudyCoroutine.setOnClickListener(this)
         i("zui", "hello world ")
+        /**
+         * kotlin中“?.” 的含义是 调用一个对象的方法之前，先判断该对象是否为null，是null则不执行该对象的方法且如果该对象的方法有返回值则直接返回null；
+         * 如果该对象不为null，则调用该对象的方法,正常返回该方法的值
+         */
+
+
+
         /*kotlin 中定义变量格式 var 变量名:变量类型 = 变量值。
         * Kotlin中变量默认是不可以为null的，默认是必须赋值的，但是我们可以通过"?"符号类设置能够为null的变量
         * 定义可以赋null值的变量的格式:var 变量名:变量类型? = null；
