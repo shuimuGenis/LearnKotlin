@@ -1,5 +1,3 @@
-import java.lang.invoke.MethodHandleInfo
-
 /**
  *kotlin 中的控制语句
  * if语句
@@ -86,18 +84,42 @@ import java.lang.invoke.MethodHandleInfo
  * 由此可知,kotlin对匿名函数以及lambda表达式都是通过创建Function对象来执行的
  *
  * 如果用inline修饰有函数式参数的方法时,那么调用该内联函数时,不仅会把内联函数的代码逻辑替换在调用的地方,同时还会展开函数式参数方法,把函数式参数的内部逻辑合理的替换在调用处。
+ * [即:官方说法 inline修饰的方法，其函数式参数也是inline的]
  * 例如当method01()被inline修饰后,不仅仅把method01()的逻辑替换在调用处,连block匿名函数内的代码逻辑也被直接替换进去了。
  *
+ * kotlin的局部返回
+ * kotlin的局部返回通常都是针对"存在函数式参数的函数,当其函数式参数中内部逻辑代码存在return,break,continue等控制语句的情况"来说的。
+ * 当一个函数被inline关键字修饰后,它就是内联函数,内联函数的函数式参数也是inline的,这时inline的函数式参数中关于返回的控制可以有两种:
+ * （1）return;正常的跟随内联函数的特性,内联函数中的逻辑以及函数式参数中的逻辑都直接替换到 内联函数的调用处,因此return 就是直接作用在调用内联函数的函数上。
+ *  同时该写法等价于:reture@调用该内联函数的顶层函数名。
+ *  例如test()方法中调用了一个method01(block:()->{})内联函数,当我们在block的代码中写return,则该return是直接作用在test()上,也可以写return@test,这样写法也是直接作用于test()方法上。
+ * (2)return@内联函数名;表示return最用在该内联函数的函数式参数自身上
+ * 当一个函数不被inline关键字修饰,它就是一个普通的函数,它的函数式参数也就不是inline的了,那么这时函数式参数的return只能作用于函数式参数自身
+ * (3)因为inline的函数式参数是可以自由选择reture的作用对象以及范围的,因此会通过return@标签名 的方式来 来代替break,continue两关键字的功能。
+ *
+ *注意:只有inline的函数式参数才可以自由决定Return是作用于顶层函数,哪个for循环或作用于函数式参数(指函数式参数自身,不是指声明函数式参数的那个函数)自身上,如何函数式参数不是inline的,那return只能作用于
+ *  函数式参数自身,即只能写reture@内联函数名
  */
 class KnowledgePoints04 {
-    inline fun test() {
+    fun test() {
         method01 {
             print("内联函数的转换")
             0
         }
+
+        innerFun {
+            print("nihao")
+            return@innerFun
+        }
+        print("调用了吗")
+
     }
 
     inline fun method01(block: () -> Int) {
         block()
+    }
+
+    inline fun innerFun(a: () -> Unit) {
+        a()
     }
 }
