@@ -1,3 +1,5 @@
+import java.lang.invoke.MethodHandleInfo
+
 /**
  *kotlin 中的控制语句
  * if语句
@@ -68,9 +70,34 @@
  * 上面代码输出的结果是：1 + 1
  * 解析：首先按照标签语法声明了标签flag1,然后在内部的循环中 循环控制语句与标签搭配使用了,break@flag1 表示 break关键字
  * 作用于flag1标签指定的表达式，即 break关键字作用于flag1标签指定的最外层的循环，因此程序执行力第一轮循环之后就退出了
- * 
+ *
+ *
+ * kotlin的inline。内联函数
+ * 被inline修饰的函数都被称为内联函数，它有几个作用
+ * (1)被调用的内联函数,在编译的时候会直接把内联函数中的代码逻辑直接替换在调用的地方,移除了方法入栈,出栈的开销。
+ * 例如:
+ * public inline fun test(){逻辑代码1} test是一个内联函数,因此任何调用test()的地方,都会在编译的时候,替换为内联函数内部的具体逻辑,相当于直接把内联函数的代码写在里面一样。
+ * (2)对函数中的函数式参数进行优化。
+ * 例如 fun method01(block:()->Int){block()};参数是需要传入一个匿名函数，当我们调用这个method01方法的时候,编译器实际上是把匿名函数转换成:
+ * a.创建一个Function0对象.
+ * b.把匿名函数中全部的逻辑移植到Function0对象的invode方法中。
+ * c.调用该对象的invode方法
+ * 为什么是创建Function0是因为匿名函数不需要传递参数,如果有一个参数那么自动创建的对象将变成Function01.
+ * 由此可知,kotlin对匿名函数以及lambda表达式都是通过创建Function对象来执行的
+ *
+ * 如果用inline修饰有函数式参数的方法时,那么调用该内联函数时,不仅会把内联函数的代码逻辑替换在调用的地方,同时还会展开函数式参数方法,把函数式参数的内部逻辑合理的替换在调用处。
+ * 例如当method01()被inline修饰后,不仅仅把method01()的逻辑替换在调用处,连block匿名函数内的代码逻辑也被直接替换进去了。
+ *
  */
 class KnowledgePoints04 {
-    fun test() {
+    inline fun test() {
+        method01 {
+            print("内联函数的转换")
+            0
+        }
+    }
+
+    inline fun method01(block: () -> Int) {
+        block()
     }
 }
