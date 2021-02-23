@@ -40,7 +40,6 @@ allprojects {
 subprojects {
     //所以这里的代码就是在目标project中执行了.我们使用Project类中的属性时,这些属性就是 目标project对应的值了。
     //implementation()方法是在 application插件中的，因此要进行插件应用才可以调用该方法
-    //
     apply plugin: 'com.android.application'
     def contains = name.contains("app")
     dependencies {
