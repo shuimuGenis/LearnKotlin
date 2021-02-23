@@ -41,6 +41,8 @@ package com.learn.kotlin.day01
  * 3.在伴生对象中声明常量:class Test{ companion object{ const val NUM_THREE="three" }}
  * 4.const是只能修饰 基本数据类型和String类型。
  *
+ * 官方提醒：object修饰的类，里面所有的属性和方法都是静态的。
+
  * 简单理解：
  * 当用于普通类中声明时
  * var -->private
