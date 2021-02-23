@@ -2,7 +2,7 @@
  * kotlin的类
  * kotlin 中声明类的方式：通过 class关键字 +类名 的方式类定义的。
  * kotlin中所有的类都继承字Any类。就跟Java中所有的类都继承自Object类一样。
- * 当声明一个没有任何主题的类时:class UserInfo  这样就声明了一个UserInfo的类,该类没有任何主体,没有定义属性也没有定义方法,该类仅仅时默认继承了Any类而已。
+ * 当声明一个没有任何主体的类时:class UserInfo  这样就声明了一个UserInfo的类,该类没有任何主体,没有定义属性也没有定义方法,该类仅仅时默认继承了Any类而已。
  *
  * 构造函数
  * kotlin中类存在主构造函数以及次构造函数。主构造函数0个或1个，次构造函数0个或多个。主构造函数是属于类头的一部分,它跟在类名之后声明于定义，
@@ -19,9 +19,16 @@
  * 注意：init代码块实际上是属于主构造函数的一部分,当次级函数直接或间接调用主构造函数,那么主构造函数的init代码块将会优先执行,之后才执行次级函数的代码逻辑;即使该类没有声明主构造函数,当次级函数调用时、
  * 仍然是init代码块先执行完成之后,次级函数的代码才执行。
  *
+ * 构造函数调用其他构造函数的写法为：
+ * fun 构造函数名(构造函数参数):this(构造函数参数){}
+ * 例如：constructor(userName: String) : this(userName, 18, "广东")
+ * 如果调用父类的构造函数
+ * fun 构造函数名(构造函数参数):super(构造函数参数){}
+ * 例如：constructor(userName: String) : super(userName, 18, "广东")
  */
-class User{
+class User(userName: String, age: Int, address: String) {
 
-    constructor(userName:String){
+    constructor(userName: String) : this(userName, 18, "广东") {
+
     }
 }
