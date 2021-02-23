@@ -36,9 +36,12 @@ package com.learn.kotlin.day01
  * 只能用在 "可读变量"上,即只有val修饰的变量能使用，可读可写是不能使用lazy()函数的。
  * lazy{}函数不能自动推导类型。因此使用lazy{}函数的固定格式：val 变量名：变量类型 by lazy{ reture该变量类型的对象}
  *
- * kotlin中 多种常量的声明方式
+ * kotlin中const修饰符的含义：
+ * val修饰的字段已经包含有"不可修改的常量"这层含义,const只是更进一步补充,表示:"它是不可修改的静态常量"
+ * 因此当你想一个字段用"public static final"修饰时,你就这样写:const val 变量名:变量类型
+ * 允许使用const修饰的地方:
  * 1.在顶层声明常量：const val NUM_ONE="one"
- * 2.在object修斯的类中声明常量：object Test{ const val NUM_TWO="two" }
+ * 2.在object修饰的类中声明常量：object Test{ const val NUM_TWO="two" }
  * 3.在伴生对象中声明常量:class Test{ companion object{ const val NUM_THREE="three" }}
  */
 /**
