@@ -42,6 +42,7 @@ package com.learn.kotlin.day01
  * 4.const是只能修饰 基本数据类型和String类型。
  *
  * 简单理解：
+ * 当用于普通类中声明时
  * var -->private
  * val -->private final
  * const val -->public final
@@ -49,6 +50,7 @@ package com.learn.kotlin.day01
  * var -->private static
  * val -->private static final
  * const val -->public static final
+ * 当用于方法中时,是不会存在这些多修饰符的。
  *
  *
  * 延迟初始化
