@@ -12,6 +12,18 @@ package com.learn.kotlin.day01
  *
  * 声明变量的语法：var 变量名:变量类型=初始值
  * 声明常量的语法：val 常量名:常量类型=初始值
+ * val/var的特点：
+ * val修饰的变量/常量:代表它是 私有的不能修改的只读属性,只能赋值一次。
+ * var修饰的变量/常量:代表它是 私有的可读可写属,能重复赋值。
+ * 它们特点如何体现：
+ * 私有的-->属性是private修饰的
+ * 不能修改-->属性是final修饰的
+ * 可读-->属性有公开的getter()方法来获取属性
+ * 可写-->属性有公开的setter()方法来设置属性
+ * 因此
+ * val 修饰的变量/常量。 它含义是的：属性是私有不可修改--> private final 变量名/常量名:数据类型，并有 public 数据类型 getter(){}
+ * var 修饰的变量/常量。它含义是：属性是私有--> private 变量名/常量名:数据类型，并有 public 数据类型 getter(){} 和 public void  setter(数据类型){}
+ *
  *
  * 变量和常量的区别是 ：变量可以多次赋值,重复赋值;常量只能赋值一次,赋值后不可修改
  *
@@ -22,8 +34,8 @@ package com.learn.kotlin.day01
  * 如果它们不被用于类的主构造器上面的话,则主构造器上的参数只是普通的方法参数,不会把它们变成类的属性字段的。val,var除了会存在与主构造上,其他次构造器上不能存在。
  *
  * val/var在顶层函数的声明情况：
- * 首先要明确 val/var两个修饰符的作用，val表示只读，var表示可读可写。
- * 因此val/var修饰的变量,不管是修饰属性,还是修饰顶层变量,它们的特性都是不变的；val修饰的属性是私有的,自动生成getter方法来获取属性;var修饰的属性是私有的,自动生成getter/setter方法来获取属性
+ * 首先要明确 val/var两个修饰符的作用，val表示私有的不可修改的只读属性，var表示私有的可读可写的属性。
+ * 因此val/var修饰的变量,不管是修饰属性,还是修饰顶层变量,它们的特性都是不变的；val修饰的属性是私有的,自动生成getter方法来获取属性;var修饰的属性是私有的,自动生成getter/setter方法来操作属性
  * 基于val/var的特性，
  * 当val修饰顶层属性时,表示修饰的属性是私有的,在顶层声明,则属性是静态的,val是不可修改的,则属性是final的,所以是 私有的不可修改的静态属性,即:private static final
  * 还没完,因为val会自动生成getter方法,因此生成的getter也是是静态方法,则生成方法的修饰符：public static final getxxx(){}
@@ -32,8 +44,8 @@ package com.learn.kotlin.day01
  * 还没完,因为var会自动生成getter/setter方法,因此生成的getter/setter也是是静态方法,则生成方法的修饰符：public static getxxx(){}
  *
  * kotlin中const修饰符的含义：
- * var/var修饰的属性都是私有的,只是通过自动生成的setter/getter方法去访问而已,其中val更是final的不，可修改的。
- * 则val修饰的字段已经包含有"不可修改的常量"这层含义,const只是更进一步补充,表示:"它是不可修改的静态常量"
+ * var/var修饰的属性都是私有的,只是通过自动生成的setter/getter方法去访问而已,其中val更是final的不可修改的。
+ * 则val修饰的字段已经包含有"不可修改的常量"这层含义,const只是更进一步补充,表示:"它是公开的不可修改的静态常量"
  * 因此当你想一个字段用"public static final"修饰时,你就这样写:const val 变量名:变量类型
  * 允许使用const修饰的地方:
  * 1.在顶层声明常量：const val NUM_ONE="one"
@@ -42,18 +54,6 @@ package com.learn.kotlin.day01
  * 4.const是只能修饰 基本数据类型和String类型。
  *
  * 官方提醒：object修饰的类，里面所有的属性和方法都是静态的。
-
- * 简单理解：
- * 当用于普通类中声明时
- * var -->private
- * val -->private final
- * const val -->public final
- * 当用于顶层/伴生对象/Object修饰的单例类时
- * var -->private static
- * val -->private static final
- * const val -->public static final
- * 当用于方法中时,是不会存在这些多修饰符的。
- *
  *
  * 延迟初始化
  * kotlin中声明的变量/常量基本都是要及时进行初始化操作的,特别是在类中声明的属性必须在对象创建完成之前完成初始化,那么能不能延迟初始化的时机呢？是可以的
