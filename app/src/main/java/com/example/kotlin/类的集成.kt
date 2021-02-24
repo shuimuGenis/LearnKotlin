@@ -24,6 +24,7 @@ class SonRelate : PersonRelate1()
 abstract class PersonRelate2(name: String, age: Int) {
     abstract fun run()
     open val subejct: String = "km"
+
     //    val textContent :String? 抽象类中 定义的属性 必须赋值
     fun rung() {
 
