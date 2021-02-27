@@ -44,9 +44,19 @@ package com.learn.kotlin.day01
  * 还没完,因为var会自动生成getter/setter方法,因此生成的getter/setter也是是静态方法,则生成方法的修饰符：public static getxxx(){}
  *
  * kotlin中const修饰符的含义：
- * var/var修饰的属性都是私有的,只是通过自动生成的setter/getter方法去访问而已,其中val更是final的不可修改的。
- * 则val修饰的字段已经包含有"不可修改的常量"这层含义,const只是更进一步补充,表示:"它是公开的不可修改的静态常量"
- * 因此当你想一个字段用"public static final"修饰时,你就这样写:const val 变量名:变量类型
+ * var/var修饰的属性都是"私有的"这一特性,只是通过自动生成公开的setter/getter方法去控制访问的权利而已,其中val更是final的不可修改的。
+ * 这样的设定对于变量来说是适合的，对于常量来说,大多数时候,我们是把常量定义成[公开的不可修改的静态常量],而不是"先把这个不可修改的静态常量"私有化,然后提供一个公开的静态方法去获取它,这样多此一举。
+ * 那么声明一个[公开的不可修改的静态常量]应该怎么做。
+ * (1)先把val自带的私有化特性移除，通过const关键字 把val自带的private变成public
+ * (2)给常量赋予静态修饰。kotlin中没有static关键字,kotlin只有三处地方可以赋予属性"静态修饰"
+ * a)在顶层声明字段/方法都是静态的 b)objec修饰的类 中的字段和方法都是静态的 c)companion object修饰的类中的字段和方法都是静态的。
+ * OK,完成了声明一个[公开的不可修改的静态常量]之后,那么kotlin就不会自动为该常量生成公开的getter/setter方法了,已经没必要生成了。
+ * 另外就算你不记得 这三处可以赋予静态修饰的地方，那你也不会写错，因为
+ * const关键字只允许在下面三处地方使用:
+ * a)在 顶层 中使用 b)objec修饰的类中使用 c)companion object修饰的类中使用。
+ *
+ * 因此当你想把val修饰的字段由 "private static final" 修改成 "public static final" 修饰时,
+ * 你就在能【能赋予字段静态修饰的地方】写:const val 变量名:变量类型
  * 允许使用const修饰的地方:
  * 1.在顶层声明常量：const val NUM_ONE="one"
  * 2.在object修饰的类中声明常量：object Test{ const val NUM_TWO="two" }
@@ -63,6 +73,10 @@ package com.learn.kotlin.day01
  * (2)不能修饰可空类型
  * (3)不能修饰基本数据类型。在kotlin中 String类型 不属于基本数据类型
  * 注意:虽然lateinit修饰的变量可以延迟初始化,但要主要必须要使用它之前进行初始化,要不然抛出"未初始化异常"
+ * 那么,怎么知道 lateinit修饰的变量是否初始化了呢?例如声明了一个lateinit var变量给外界初始化,那么外界有没有初始化是无法得知的
+ * lateinit var修饰的变量都会自动增加一个拓展属性 isInitialized。true表示初始化成功。
+ * 例如 lateinit var name:String; if(naem.isInitialized){print(name)}\
+ *
  * lazy高阶函数
  * 使用lateinit关键字修饰的变量进行延迟初始化,它们是可以重复赋值的
  * 使用lazy()高阶函数进行延迟初始化的属性,特点是只有程序第一次使用该变量时初始化一次,后续将不会进行初始化。

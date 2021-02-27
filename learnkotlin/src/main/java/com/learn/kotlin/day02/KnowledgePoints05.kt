@@ -30,8 +30,9 @@
  * 当我们想重写属性的getter/setter方法时
  * 直接在属性下方进行重写：
  * getter方法的重写为：get(){}
- * setter方法的重写格式：set(value){}。set(value)这种写法是kotlin特有的,括号中的value不需要进行参数声明,也不需要赋值。它仅仅
+ * setter方法的重写格式：set(value){field=value}。set(value)这种写法是kotlin特有的,括号中的value不需要进行参数声明,也不需要赋值。它仅仅
  * 代表"将任何类型的值 赋值 给 当前属性"
+ * 普通类中存在幕后字段field，接口中的属性是没有幕后字段field
  *
  * kotlin中"=="和"==="的区别
  * "=="比较的是内容是否相等
