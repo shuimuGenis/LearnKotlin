@@ -1,5 +1,7 @@
 package com.learn.kotlin.day01
 
+import com.learn.kotlin.bean.Student
+
 /**
  * @author shuimu{lwp}
  * @time 2019/8/14  11:59
@@ -108,7 +110,7 @@ package com.learn.kotlin.day01
  * person.name?:"小明"; 该行代码表示:如果person的name字段的值为null,则返回默认值"小明",不为null则返回name字段的值。
  *
  * as?-->安全转换运算符。用于进行类型强制转换时,类型不合适,强转失败的情况下,返回一个null值。如
- * person as? Student;该行代表表示:尝试强制转换person对象的类型为Student类型,如果成功则返回该对象的student类型,如果强转失败,则返回null。
+ * person as? com.learn.kotlin.bean.Student;该行代表表示:尝试强制转换person对象的类型为Student类型,如果成功则返回该对象的student类型,如果强转失败,则返回null。
  *
  * is-->类型检查运算符。用于判断对象是否是某个类型的实例,相当于Java中的 instance of。 !is表示对象是否不是某个类型的实例。当我们使用is关键字判断了
  * 对于kotlin来说,当对象通过了is关键字的判断代表-->如果判断结果为true,说明该对象就是这个类型,那就没必要进行强制转换了,kotlin会自动进行智能转换,不需要手动进行强制转换了
@@ -152,7 +154,6 @@ package com.learn.kotlin.day01
  */
 class KnowledgePoints01 {
     val name: String by lazy {
-        return "555"
+        "555"
     }
-
 }

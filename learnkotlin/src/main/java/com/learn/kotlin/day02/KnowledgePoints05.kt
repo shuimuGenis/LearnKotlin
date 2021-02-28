@@ -42,14 +42,4 @@
  * 
  */
 class KnowledgePoints05 {
-    var name: String
-        get() {}
-        set(value){}
 }
-
-class Person(name: String, age: Int) {
-    constructor(name: String, age: Int, role: String) : this(name, age) {
-
-    }
-}
-

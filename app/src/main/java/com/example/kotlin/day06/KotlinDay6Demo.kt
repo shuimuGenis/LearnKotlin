@@ -12,7 +12,6 @@ class TestDemoDay6Actiity : AppCompatActivity() {
         setContentView(R.layout.activity_demo_6)
         aboutHeightFunctionInfo()
         aboutAnnotationDemo()
-        aboutClassProxyDemo()
     }
 
     /**
@@ -61,16 +60,4 @@ class TestDemoDay6Actiity : AppCompatActivity() {
         }
     }
 
-    /**
-     * 关于 kotlin类委托/属性委托 的实例
-     */
-    fun aboutClassProxyDemo() {
-        //类委托
-        val demo = TestBaseDemo()
-        demo.testAction()
-        //属性委托
-        demo.testPropertyAction()
-        //属性延迟初始化---->lazy函数
-        demo.testLazyAction()
-    }
 }
