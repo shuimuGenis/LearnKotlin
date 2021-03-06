@@ -35,7 +35,17 @@ import com.learn.kotlin.bean.Student
  * 除了给类定义拓展函数外，也可以定义拓展属性，同时还可以给 伴生对象定义拓展函数以及拓展属性。
  *
  * kotlin 数据类。
- *
+ * kotlin中data关键字修饰的类就是数据类。数据类必须有主构造函数且主构造函数的参数至少有一个。
+ * 数据类必须满足的要求:
+ * (1)主构造函数至少有一个参数
+ * (2)主构造函数的参数必须由 "val/var"关键字修饰,因为数据类要根据主构造函数的参数生成属性以及它们的setter/getter方法
+ * (3)数据类不能是抽象类，开放类，密封类，内部类，但是数据类可以是密封类的子类。
+ * (4)数据类只能实现接口,但是数据类能够派生密封类
+ * 数据类自动生成的方法:会根据主构造函数中的参数生成对应的属性,并且把"这些通过主构造函数声明,定义的属性"生成equest()/hasCode()/copy()等函数,以及用于解构性声明的componentN()函数
+ * 例如:data class User(val name: String, val age: Int){ val sex:String} ;声明的 User类是数据类,并且根据主构造函数的参数生成了name属性和age属性以及它们的setter/getter方法
+ * 同时 equals(),hascode(),copy()等会根据name和age()属性生成对应的逻辑。
+ * 数据类user中 定义的sex属性,sex也有对应的setter/getter方法,但是sex属性不会被加入 equals(),hascode(),copy()等方法的逻辑内部,除非我们手动重写一下。
+ * 
  */
 class KnowledgePoints07{
 
