@@ -47,12 +47,13 @@
  * 在kotlin中,非静态内部类调用外部类的方法或者属性时,应该这样写：super@外部类名.函数名() / super@外部类名.属性
  *
  * kotlin的伴生对象
- * kotlin通过 companion object 修饰符来定义一个伴生对象。伴生对象内部的方法和属性都是static修饰的，静态的。
+ * kotlin通过 companion object 修饰符来定义一个伴生对象。伴生对象内部的方法和属性都是static修饰的，静态的，每一个类中只能有一个伴生对象。
+ * 注意:定义伴生对象的格式: companion object [伴生对象名]{代码逻辑} 。虽然声明伴生对象时有定义伴生对象的名称,但是伴生对象的名称其实是没有任何意义的,我们通常都"省略或不定义伴生对象名"
  * 例1 伴生对象内声明一个 val name:String="小明",则这行代码 的理解为 : "val的私有的不可修改"+"伴生对象内部属性是静态的" = private static final String name ="小明";同时生成val自带的生成getter方法
  * 例2 伴生对象内部声明一个 const val name:String="小明",则这行代码的理解为:"const关键字把val自带的private替换成public"+"伴生对象内部属性是静态的"=public static final String name ="小明"
  * 伴生对象的含义是，工厂方法，即对外提供静态的方法来访问类中的方法,执行类中的逻辑。本质不是让我们把 常量定义在里面的.定义常量或静态方法推荐 在顶层声明。
  */
-class Person(userName: String, age: Int, address: String) {
+class KonwledgePoint06(userName: String, age: Int, address: String) {
 
     constructor(userName: String) : this(userName, 18, "广东") {
 

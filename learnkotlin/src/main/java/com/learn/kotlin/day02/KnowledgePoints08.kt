@@ -57,6 +57,3 @@ package com.learn.kotlin.day02
 class KnowledgePoints08 {
 
 }
-
-interface IAnimal<A> {
-}

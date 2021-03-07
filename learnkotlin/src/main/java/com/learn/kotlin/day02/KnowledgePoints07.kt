@@ -31,6 +31,10 @@ import com.learn.kotlin.bean.Student
  * 根据生成的java代码原型,可知：拓展函数是不能被子类重写的..因为它是静态方法不属于对象
  * 另外，拓展函数强调的是"对指定类型的类进行函数拓展",
  * 注意:当拓展函数与被拓展的类中的某个成员方法签名(方法名与参数名)一致,则以该类的成员方法为主；如果拓展函数只是方法名与类中某个方法相同，但是参数不同,则将根据参数选择性调用。
+ * 另外注意:拓展函数是可以给null拓展的,也就是说,就算一个变量的值是null,那你也可以去拓展它。
+ * 当拓展函数是对【可空类型进行拓展】时,则该拓展函数在内部逻辑中必须进行null值情况下的处理。
+ * 例如：fun Any?.toString(){if(null==this){处理代码}else{其他逻辑}};
+ * 示例中因为是对 Any?这个可控类型进行函数拓展,因此拓展函数中存在null值的处理逻辑。
  *
  * 除了给类定义拓展函数外，也可以定义拓展属性，同时还可以给 伴生对象定义拓展函数以及拓展属性。
  *
@@ -45,8 +49,8 @@ import com.learn.kotlin.bean.Student
  * 例如:data class User(val name: String, val age: Int){ val sex:String} ;声明的 User类是数据类,并且根据主构造函数的参数生成了name属性和age属性以及它们的setter/getter方法
  * 同时 equals(),hascode(),copy()等会根据name和age()属性生成对应的逻辑。
  * 数据类user中 定义的sex属性,sex也有对应的setter/getter方法,但是sex属性不会被加入 equals(),hascode(),copy()等方法的逻辑内部,除非我们手动重写一下。
- * 
+ *
  */
-class KnowledgePoints07{
+class KnowledgePoints07 {
 
 }
