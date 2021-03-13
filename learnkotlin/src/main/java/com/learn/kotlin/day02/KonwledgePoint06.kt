@@ -42,20 +42,28 @@
  * 那么kotlin中呢
  * init代码块 --》java代码块
  * companion object-->Java中的静态方法，静态变量，companion中的init代码块==>java中的静态代码块。
- *
+ * object类中的init代码块-->java中的静态代码块
  * kotlin中声明的内部类默认是静态内部类，只有inner关键字修饰的内部类才是非静态内部类。
  * 在kotlin中,非静态内部类调用外部类的方法或者属性时,应该这样写：super@外部类名.函数名() / super@外部类名.属性
  *
  * kotlin的伴生对象
- * kotlin通过 companion object 修饰符来定义一个伴生对象。伴生对象内部的方法和属性都是static修饰的，静态的，每一个类中只能有一个伴生对象。
+ * kotlin通过 companion object 修饰符来定义一个伴生对象，每一个类中只能有一个伴生对象。
+ * 伴生对象所有属性都是static修饰的，静态的，但伴生对象的所有的方法(包括属性的setter/getter方法)都不是静态的,都是public final修饰的。
+ * 伴生对象本质是一个public final修饰的内部类,该内部类构造方法private修饰,伴生对象内部声明的所有属性在编译时全部会被声明在其依附的类上,属性通常是"private static"的形式存在,
+ * 当然啦通过const关键字可以把修饰改成"public static"的形式。同时创建了该内部类唯一单例对象(Companion变量指向了该对象),其他所有方法(包括属性的setter/getter)都是通过该单例对象去访问的。
+ * 所以伴生对象实际上就是一个单例对象,只是这个对象的类型是一个内部类。
  * 注意:定义伴生对象的格式: companion object [伴生对象名]{代码逻辑} 。虽然声明伴生对象时有定义伴生对象的名称,但是伴生对象的名称其实是没有任何意义的,我们通常都"省略或不定义伴生对象名"
  * 例1 伴生对象内声明一个 val name:String="小明",则这行代码 的理解为 : "val的私有的不可修改"+"伴生对象内部属性是静态的" = private static final String name ="小明";同时生成val自带的生成getter方法
  * 例2 伴生对象内部声明一个 const val name:String="小明",则这行代码的理解为:"const关键字把val自带的private替换成public"+"伴生对象内部属性是静态的"=public static final String name ="小明"
  * 伴生对象的含义是，工厂方法，即对外提供静态的方法来访问类中的方法,执行类中的逻辑。本质不是让我们把 常量定义在里面的.定义常量或静态方法推荐 在顶层声明。
+ * ----前面我们已经知道：伴生对象本质上是一个public final修饰的内部类,既然是内部类那自然是能继承或者实现接口的。
+ * 这种情况在我们使用协程的时候,特别是自定义协程上下文时经常会看见
+ * 例如：实现自己的协程上下文环境
+ * class HttpContext:AbstractCoroutineContextElement<Key>{
+ *     //声明了一个伴生对象KEY,该伴生对象继承CoroutineContext.Key,同时因为伴生对象内部没有任何内容,因此省略了{}大括号
+ *     companion object Key:CoroutineContext.Key<HttpContext>
+ * }
  */
-class KonwledgePoint06(userName: String, age: Int, address: String) {
-
-    constructor(userName: String) : this(userName, 18, "广东") {
-
-    }
+class KonwledgePoint06 {
+       constructor(userName: String)
 }

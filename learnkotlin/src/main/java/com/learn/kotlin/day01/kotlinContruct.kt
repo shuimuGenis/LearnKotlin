@@ -1,4 +1,4 @@
-package com.example.kotlin
+package com.learn.kotlin.day01
 
 /**
  * @author shuimu{lwp}
@@ -11,15 +11,15 @@ package com.example.kotlin
  */
 fun testDemo02() {
     /**
-     * User类是 data class关键字修饰的数据类....数据类之所以能够支持解构声明的语法是因为
+     * Book类是 data class关键字修饰的数据类....数据类之所以能够支持解构声明的语法是因为
      * 在编译的时候会 按照 类中声明的属性的顺序,依次创建component1(),component2(),component3()....componentN()的方法来获取属性；
      * N个属性就创建1~N命名的component1()~componentN()方法。注意点1：这些 componentN()方法都是 operator 关键字修饰的。
      */
-    val tempUser = User("57791", "5", "123456789887451")
+    val tempUser = Book("57791", "5", "123456789887451")
     //这里的写法,因为user是数据类，在编译成java文件的时候,实际上调用的是componentN()方法
-    val temUserId = tempUser.userId
-    val tempUserType = tempUser.serType
-    val tempUserUniqueId = tempUser.userUniqueId
+    val temUserId = tempUser.name
+    val tempUserType = tempUser.price
+    val tempUserUniqueId = tempUser.produtor
     //上面的写法可以等价于，这样
     val userid = tempUser.component1()
     val serType = tempUser.component2()
@@ -35,17 +35,16 @@ fun testDemo02() {
      * 一个普通类支持了解构声明的语法
      */
     val (tName, tPrice) = TestDemo9()
-    logInstance("name: $tName ; price : $tPrice")
 
     /**
      * kotlin中的集合是支持解构声明语法的，原来也是一致的
      */
     //数组
-    val array = arrayOf(1,2,3)
-    var (a1,a2,a3) =array
+    val array = arrayOf(1, 2, 3)
+    var (a1, a2, a3) = array
     //集合
-    val list= listOf("1","2","3")
-    val (s1,s2,s3)=list
+    val list = listOf("1", "2", "3")
+    val (s1, s2, s3) = list
     //map
     val map = mapOf("key1" to 1, "key2" to 2, "key3" to 3)
     for ((key, value) in map) {
@@ -73,3 +72,5 @@ class TestDemo9 {
         return price
     }
 }
+
+data class Book(val name: String = "库洛牌大全", val price: String = "一亿", val produtor: String = "库洛里多")

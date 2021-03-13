@@ -82,10 +82,10 @@
  * c.调用该对象的invode方法
  * 为什么是创建Function0是因为匿名函数不需要传递参数,如果有一个参数那么自动创建的对象将变成Function01.
  * 由此可知,kotlin对匿名函数以及lambda表达式都是通过创建Function对象来执行的
- *
  * 如果用inline修饰有函数式参数的方法时,那么调用该内联函数时,不仅会把内联函数的代码逻辑替换在调用的地方,同时还会展开函数式参数方法,把函数式参数的内部逻辑合理的替换在调用处。
  * [即:官方说法 inline修饰的方法，其函数式参数也是inline的]
  * 例如当method01()被inline修饰后,不仅仅把method01()的逻辑替换在调用处,连block匿名函数内的代码逻辑也被直接替换进去了。
+ * 官方说法:inline对于"没有函数类型参数"的函数来说是没有性能提升的,只有对于"存在函数类型参数的函数,性能提升才会明显,因为避免频繁创建Function对象了"
  *
  * kotlin的局部返回
  * kotlin的局部返回通常都是针对"存在函数式参数的函数,当其函数式参数中内部逻辑代码存在return,break,continue等控制语句的情况"来说的。
@@ -105,7 +105,13 @@
  *  @JvmFiled :这个注解表示:被修饰的属性将会是public修饰的,不会生成getter/setter方法。
  */
 class KnowledgePoints04 {
+    lateinit var call: (String) -> Int
+
     fun test() {
+        call = { para ->
+            print(para)
+            0
+        }
         method01 {
             print("内联函数的转换")
             0

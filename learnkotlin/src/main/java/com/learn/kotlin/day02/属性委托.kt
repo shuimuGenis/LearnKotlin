@@ -1,6 +1,6 @@
 package com.example.kotlin.day06
 
-import com.example.kotlin.logInstance
+import com.learn.kotlin.day01.logInstance
 import kotlin.properties.Delegates
 import kotlin.properties.ReadWriteProperty
 import kotlin.reflect.KProperty

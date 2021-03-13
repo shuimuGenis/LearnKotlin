@@ -51,7 +51,7 @@ import com.learn.kotlin.bean.Student
  * 那么声明一个[公开的不可修改的静态常量]应该怎么做。
  * (1)先把val自带的私有化特性移除，通过const关键字 把val自带的private变成public
  * (2)给常量赋予静态修饰。kotlin中没有static关键字,kotlin只有三处地方可以赋予属性"静态修饰"
- * a)在顶层声明字段/方法都是静态的 b)objec修饰的类 中的字段和方法都是静态的 c)companion object修饰的类中的字段和方法都是静态的。
+ * a)在顶层声明字段/方法都是静态的 b)objec修饰的类 中的字段是静态的,但方法不是静态的且方法是public final的 c)companion object修饰的类中的字段和方法都是静态的。
  * OK,完成了声明一个[公开的不可修改的静态常量]之后,那么kotlin就不会自动为该常量生成公开的getter/setter方法了,已经没必要生成了。
  * 另外就算你不记得 这三处可以赋予静态修饰的地方，那你也不会写错，因为
  * const关键字只允许在下面三处地方使用:
@@ -65,7 +65,11 @@ import com.learn.kotlin.bean.Student
  * 3.在伴生对象中声明常量:class Test{ companion object{ const val NUM_THREE="three" }}
  * 4.const是只能修饰 基本数据类型和String类型。
  *
- * 官方提醒：object修饰的类，里面所有的属性和方法都是静态的。
+ * object类-->"除了【属性是私有静态的】之外,所有【方法都不是静态】的,都是通过自动生成的唯一单例对象(INSTANCE变量指向了该单例对象)去访问的"
+ * 官方提醒：
+ * (1)object修饰的类，类是public final修饰的；
+ * (2)object类中所有的属性都是静态的,但是属性的getter/setter方法不是静态的,由public final修饰的,符合第三点。
+ * (3)object类中所有的方法(包括属性的getter/setter)都不是静态的,方法是属于对象的，是public final修饰的,
  *
  * 延迟初始化
  * kotlin中声明的变量/常量基本都是要及时进行初始化操作的,特别是在类中声明的属性必须在对象创建完成之前完成初始化,那么能不能延迟初始化的时机呢？是可以的

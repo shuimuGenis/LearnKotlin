@@ -1,4 +1,4 @@
-package com.example.kotlin
+package com.learn.kotlin.day01
 
 import android.content.Context
 import android.util.Log
@@ -190,3 +190,5 @@ class lambdaTest {
         Arrays.sort(arr) { o1, o2 -> o1 - o2 }
     }
 }
+
+fun logInstance(msg:String)=Log.i("zui",msg)

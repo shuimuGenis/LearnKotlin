@@ -20,11 +20,10 @@ import com.learn.kotlin.bean.Student
  *
  * kotlin 拓展函数。
  * 类的扩展 格式很简单：(各种修饰符) fun 类.方法名(参数列表){}
- * 通过类扩展定义的方法,就好像这个类本身就定义了该方法一样。而且 拓展函数是正对类进行拓展的,哪怕类的泛型不同,也是对类进行拓展而不是对不同类泛型进行拓展
+ * 通过类扩展定义的方法,就好像这个类本身就定义了该方法一样。而且 拓展函数是针对类进行拓展的,哪怕类的泛型不同,也是对类进行拓展而不是对不同类泛型进行拓展
  * 例如:List<String>.test();和 List<Int>.test(); 不管是对于List<String>还是对List<Int>进行拓展,因为泛型擦除的关系,在运行其都会变成是对List<*>类进行拓展,
  * 因此List<String>.test();和 List<Int>.test();是等价的
  * 也因此声明了List<String>.test();就不能写 List<Int>.test(); 因为会被认为重复声明了相同的拓展函数。
- *
  * 拓展函数本质上是 静态函数。
  * 在这个拓展函数的定义中 fun String.cxIsNotEmpty(): Boolean {return this.isNotEmpty()}
  * String是接收者类型,this是接收者类型的对象，
@@ -39,7 +38,7 @@ import com.learn.kotlin.bean.Student
  * 例如：fun Any?.toString(){if(null==this){处理代码}else{其他逻辑}};
  * 示例中因为是对 Any?这个可控类型进行函数拓展,因此拓展函数中存在null值的处理逻辑。
  * 除了给类定义拓展函数外，也可以定义拓展属性，同时还可以给 伴生对象定义拓展函数以及拓展属性。
- *
+ * 注意：当我们给给类声明匿名拓展函数的话,它就将会是 函数字面量了
  *
  * kotlin 数据类。
  * kotlin中data关键字修饰的类就是数据类。数据类必须有主构造函数且主构造函数的参数至少有一个。

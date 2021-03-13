@@ -1,7 +1,5 @@
 package com.learn.kotlin
 
-import androidx.test.ext.junit.runners.AndroidJUnit4
-import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.runner.AndroidJUnit4
 import com.learn.kotlin.bean.Student
 import org.junit.Test
@@ -17,6 +15,5 @@ class ExampleInstrumentedTest {
     @Test
     fun useAppContext() {
         val student01 = Student()
-        print("${student01.name}")
     }
 }
