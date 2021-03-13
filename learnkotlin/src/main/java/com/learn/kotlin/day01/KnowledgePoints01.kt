@@ -51,7 +51,7 @@ import com.learn.kotlin.bean.Student
  * 那么声明一个[公开的不可修改的静态常量]应该怎么做。
  * (1)先把val自带的私有化特性移除，通过const关键字 把val自带的private变成public
  * (2)给常量赋予静态修饰。kotlin中没有static关键字,kotlin只有三处地方可以赋予属性"静态修饰"
- * a)在顶层声明字段/方法都是静态的 b)objec修饰的类 中的字段是静态的,但方法不是静态的且方法是public final的 c)companion object修饰的类中的字段和方法都是静态的。
+ * a)在顶层声明字段/方法都是静态的 b)objec修饰的类 中的字段是静态的,但方法不是静态的且方法是public final的 c)companion object修饰的类中的字段是静态的,但方法不是静态的且方法是public final的 。
  * OK,完成了声明一个[公开的不可修改的静态常量]之后,那么kotlin就不会自动为该常量生成公开的getter/setter方法了,已经没必要生成了。
  * 另外就算你不记得 这三处可以赋予静态修饰的地方，那你也不会写错，因为
  * const关键字只允许在下面三处地方使用:

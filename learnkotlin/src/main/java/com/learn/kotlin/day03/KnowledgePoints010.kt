@@ -63,7 +63,7 @@ package com.learn.kotlin.day03
  * 那就可以通过添加注解 @JvmField ---》这样属性就被编译成"public 修饰的属性了",且不会生成getter/setter方法,对外界对内部也还是"公开且可读可写"
  *
  * 关于@JvmOverloads
- * 在kotlin中,我们可以给函数的参数定义默认值,但该函数的参数没有传递数值时则使用定义的默认值。通过这种方式可以进行方法重载。
+ * 在kotlin中,我们可以给函数的参数定义默认值,当该函数的参数没有传递数值时则使用定义的默认值。通过这种方式可以进行方法重载。
  * 例如:fun toast(tag:String="zui",msg:String){};示例中的方法taost的参数tag是赋予了默认值的,使用的时候可以不给tag传值,仅仅传递msg即可
  * 但是kotlin的这种"参数默认值"在java中默认是不会识别的,但我们在java中调用"存在参数默认值的函数时,仍需要给[有默认值的参数]赋值"。参数默认值在Java中失去了它的意义,因为Java没有参数默认值。
  * 但如果我就是希望java于kotlin一般呢?或者希望java能够支持默认值呢？对此,kotlin给出了解决方案：@JvmOverloads注解
@@ -89,6 +89,9 @@ object ActionMovie {
 
     @JvmStatic
     fun action(action: String?) {
+        print(action)
+    }
+    fun action02(action: String?) {
         print(action)
     }
 }
