@@ -1,6 +1,6 @@
 package com.learn.kotlin.day01
 
-import com.learn.kotlin.bean.Student
+import java.io.File
 
 /**
  * @author shuimu{lwp}
@@ -9,7 +9,8 @@ import com.learn.kotlin.bean.Student
  */
 /**
  * （1）kotlin 中的变量和常量。
- * kotlin是强类型的语言，要求在声明变量和常量的时候，必须显示或隐式的指定变量,常量的类型,并且为其赋予初始值。
+ * kotlin是静态类型的编程语言,运行在jvm上。
+ * kotlin是 强类型的语言，要求在声明变量和常量的时候，必须显示或隐式的指定变量,常量的类型,并且为其赋予初始值。
  * 隐式是指:声明的变量或常量时不指定它们的类型,而是声明的同时进行初始化,这样就kotlin能根据初始化的值来推断该它们的具体类型。
  *
  * 声明变量的语法：var 变量名:变量类型=初始值
@@ -166,5 +167,10 @@ import com.learn.kotlin.bean.Student
 class KnowledgePoints01 {
     val name: String by lazy {
         "555"
+    }
+
+    fun testFile() {
+        File("").readBytes()
+        File("").walk().filter { false }.filter { true }.forEach {  }
     }
 }
