@@ -45,15 +45,16 @@ return { j, i -> j + i }
  * 示例中就是一个高阶函数，因为他的返回值是返回一个"有两个int入参,返回值是int类型的函数"
  *
  * kotlin 的 闭包函数
- * 闭包函数就是能够读取“声明其存在的函数"的 内部变量的函数。
- * 例如：fun closureMethod(i: Int): () -> Int {
-var memoryValue = 1
-return fun(): Int {
-return i + memoryValue++
+ * 闭包函数就是能够读取或持有 “声明其存在的函数中的内部变量,内部状态"的函数。
+ * 例如：
+fun closureMethod(i: Int): () -> Unit {
+     var memoryValue = 1
+      return fun(): Unit { memoryValue++ }
 }
-}
- *上面的函数中,closureMethod(i:Int):()->Int{}函数不是闭包函数，闭包函数是其里面 声明的 fun():Int{} 函数,它才是闭包函数。
- * 因此在 fun():Int{} 中 能够访问其声明所在函数 closureMethod(i:Int):()->Int{}函数 的内部变量
+ *上面的函数中,closureMethod(i:Int):()->Unit{}函数不是闭包函数，闭包函数是其里面 声明的 fun():Unit{} 函数,它才是闭包函数。
+ * 闭包函数 fun():Unit{} 中 能够访问其声明所在函数 closureMethod(i:Int):()->Int{}函数 的内部变量memoryValue，当调用closureMethod()方法时,
+ * 该方法返回闭包函数 fun():Unit{},我们拿着"闭包函数 fun():Unit{}"去执行,这时注意:既然闭包函数作为返回值从closureMethod()中返回出来了,那么closureMethod()应该已经出栈了,那么closureMethod()
+ * 中的资源被回收了,但其内声明的内部变量memoryValue(函数内部状态)则是被闭包函数持有了。闭包函数能够继续正常执行。
  *
  * kotlin的匿名函数
  * 没有方法名的函数就是匿名函数。声明方法的格式：fun 函数名(参数名:参数类型...):返回值类型{}。
@@ -99,7 +100,7 @@ class KnowledgePoints03 {
     fun test01(name: String, age: Int) {
     }
 
-    fun test02() {
+    fun test02(): Unit {
         test01(name = "小明", age = 18)
     }
 
@@ -107,6 +108,22 @@ class KnowledgePoints03 {
         block(Book("宇宙大爆炸起源", "100元", "科技出版社"))
         Book().block()
     }
+}
+
+fun methodsA(): () -> Unit {
+    var testValue = 1
+    val tempMethods = fun() {
+        testValue++
+        println(testValue)
+    }
+    return tempMethods
+}
+
+fun main() {
+    val methodsB = methodsA()
+    methodsB()
+    methodsB()
+    methodsB()
 }
 
 val sentTo = fun Book.() {}
