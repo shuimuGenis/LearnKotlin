@@ -6,5 +6,5 @@ package com.learn.kotlin.bean
  * @desc
  */
 data class MothousUSB(val name: String, val branch: String) {
-    var price: Float = 0f
+    val price: Float = 0f
 }

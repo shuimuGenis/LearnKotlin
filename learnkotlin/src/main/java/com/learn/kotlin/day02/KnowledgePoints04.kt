@@ -104,9 +104,9 @@ import com.learn.kotlin.day01.logInstance
  *注意:只有inline的函数式参数才可以自由决定Return是作用于顶层函数,哪个for循环或作用于函数式参数(指函数式参数自身,不是指声明函数式参数的那个函数)自身上,如何函数式参数不是inline的,那return只能作用于
  *  函数式参数自身,即只能写reture@内联函数名
  *
- *  kotlin的特殊注解
- *  kotlin中类中声明的属性,默认都是private修饰的
- *  @JvmFiled :这个注解表示:被修饰的属性将会是public修饰的,不会生成getter/setter方法。
+ * kotlin的特殊注解
+ * kotlin中类中声明的属性,默认都是private修饰的
+ * @JvmFiled :这个注解表示:被修饰的属性将会是public修饰的,不会生成getter/setter方法。
  */
 class KnowledgePoints04 {
     fun test() {
