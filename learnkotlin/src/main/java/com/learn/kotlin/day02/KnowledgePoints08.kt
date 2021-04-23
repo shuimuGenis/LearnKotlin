@@ -1,5 +1,7 @@
 package com.learn.kotlin.day02
 
+import UserInfo
+
 /**
  * @author shuimu{lwp}
  * @time 2019/8/14  11:59
@@ -20,24 +22,36 @@ package com.learn.kotlin.day02
  * 还可以通过where关键字约束 泛型多个上界。
  * 注意，kotlin中 泛型默认的上界类型都是"Any?"。
  * (3)类型擦除
- * kotlin的泛型只存在于编译期，运行期间类中所有使用到泛型的地方都被替换成具体的类型了，运行期间类是不保留泛型信息的，运行期间泛型被擦除然后使用"*"号代替泛型信息，因此我们 [无法判断一个对象是否是"某个声明了具体泛型类型的类"的实例]
- * 这点于java是类似的。例如:Array<Int>,Array<String> 这样的类型,虽然声明了泛型类型是Int，但是仅仅在编译期进行安全检查，运行期是不保留任何泛型信息的，泛型信息被擦除变成 IAnimal<*>。
- * 这样的话,对于一个Array<*>类型的对象,你根本不知道它是Array<Int>,Array<String>,Array<Float>,也就不知道Array<*>中每个元素是Int还是String,所以循环数组时也只能每个元素都判断类型,然后来正确使用,避免类型转换错误的出现。
+ * kotlin的泛型只存在于编译期，运行期间类中所有使用到泛型的地方都被替换成具体的类型了，运行期间类是不保留泛型信息的，运行期间泛型被擦除,我们获取的是Array<Object>，因此我们 [无法判断一个对象是否是"某个声明了具体泛型类型的类"的实例]
+ * 这点于java是类似的。例如:Array<Int>,Array<String> 这样的类型,虽然声明了泛型类型是Int，但是仅仅在编译期进行安全检查，运行期是不保留任何泛型信息的，泛型信息被擦除变成 IAnimal<Object>。
+ * 这样的话,对于一个Array<Object>类型的对象,你根本不知道它是Array<Int>,Array<String>,Array<Float>,也就不知道Array<Object>中每个元素是Int还是String,所以循环数组时也只能每个元素都判断类型,然后来正确使用,避免类型转换错误的出现。
  * 这就是 泛型的类型擦除带来的影响
- * 但是呢,通过 reified 关键字能够做到"智能的把泛型转换成使用时所指定的类型,相当于保存了泛型信息",但是reified关键字只能够在inline函数中使用。
- * inline配合reified关键字的高级用法是:[基于reified的智能转换泛型为指定类型保存泛型信息]这一特性，那么我们就可以通过 【泛型去获取Class对象，如"泛型D获取class对象写法是D::class"】
- * 通过泛型去获取class对象这种方式呢,因为泛型的类型是未知的,所以泛型被指定为什么类型,那我们获取的就是什么类型的Class对象。
- * 例如1:
- * inline fun <reified D> test(d:D) {
-       val kClass = D::class
-       val jClass = D::class.java
-       print("${kClass.simpleName},${jClass.simpleName}")
-  }
- *上面的实例中,因为reified关键字的修饰,可以直接获取泛型D的class对象了。
- *
- * 基于 泛型获取Class对象这一操作,我们就可以在 Gson转换中 这样写：
+ * 但是呢,kotlin通过 reified 关键字和inline关键字 做到了"智能的把泛型转换成使用时所指定的类型",因为转换成具体使用的类型了,自然就不存在什么泛型不泛型的,擦除也就不存在了。
+ * 先介绍kotlin绕过jvm泛型擦除的原理,之后再展示用法。
+ * 原理是：
+ * 我们都知道内联函数的原理，编译器把实现内联函数的内部代码动态插入到每次调用的地方。那么实化的原理正是基于这个机制，
+ * 每次调用带实化类型参数的函数(每次调用带泛型的函数)时，编译器都已经知道此次调用中方法中的泛型具体是什么类型。
+ * 所以编译器在插入inline函数的内部代码时,直接都把用到泛型的地方替换成具体的类型,因此最后生成的字节码中,根本看不到泛型的影子,也就不存在泛型擦除了。
+ * 例如: 有一个泛型方法:
+ *  inline fun <reified T> changeData(data: T){
+ *      val temp: T = data
+ *      print(T::class.java)
+ * }
+ * 还有一个方法内部调用了该inline函数：
+ *  fun testChangeData(){
+ *    changeData<UserInfo>(UserInfo("小米",0))
+ *  }
+ * 编译器处理该inline函数时,做了两个操作：
+ * (1)直接把inline函数内部代码: val temp: T = data; print(T::class.java)替换到调用处
+ * (2)因为调用的地方指定了具体的泛型类型,因此把内部代码中用到泛型的地方全部换成具体的类型。
+ * 则T::class.java换成String::class.java; val temp: T = data换成 val temp:String = data
+ * 整个内部代码变成：
+ * val temp:String = data
+ * print(String::class.java)
+ * 因此,替换过后,泛型从此不存在了,也就没有泛型擦除了。
+ * 明白了原理之后，我们就根据原理,把Gson的解析方法优化一下,下面是高级写法:
  * inline fun <reified T> Gson.fromJson(json: String) = fromJson(json, T::class.java)
- * 这样就能把任意类型的对象转换成json字符串了。
+ *
  * (4)型变
  * 型变背景:[假设有A,B两个类,设B是A的子类(即B:A),声明List<A>,List<B>,因为B:A,所以List<B>中的是可以当作List<A>的,但是编译器不这么认为,编译器认为 List<A>,List<B>是两个不同的东西,不能把List<B>当作List<A>的]
  * 那么,kotlin提供了对这一情况的支持,out和in两个关键字用于告诉编译器 泛型的继承关系,泛型的上界和下界。
@@ -45,10 +59,10 @@ package com.learn.kotlin.day02
  * 【被in关键字修饰的泛型,保留该泛型作为子类的能力,同时该泛型只能出现在成员方法的入参中,不能用作返回值。被称作逆变】--消费者
  * 就那背景中说的示例来讲解：因为A,B是继承关系,那么可以告诉编译器:"A是B的父类"这一点，通过out关键字来达成
  * class Animal<out D>
-   fun test() {
-      val tempAnimalB = Animal<B>()
-      var tempAnimalA = tempAnimalB
-   }
+ * fun test() {
+ *    val tempAnimalB = Animal<B>()
+ *    var tempAnimalA = tempAnimalB
+ * }
  * 上面的代码中,Animal的泛型D是被 out关键字修饰的,含义是:被out关键字修饰的泛型,保留该泛型作为父类的能力,同时该泛型只能出现在成员方法的返回值中,不能用作入参。
  * 声明处型变 是指在类上声明泛型,并且声明泛型是协变还是逆变
  * 使用处型变 是指在方法上声明泛型,并且声明泛型是协变还是逆变
@@ -56,4 +70,12 @@ package com.learn.kotlin.day02
  */
 class KnowledgePoints08 {
 
+    fun testChangeData() {
+        changeData<UserInfo>(UserInfo("小米", 0))
+    }
+
+    inline fun <reified T> changeData(data: T) {
+        val temp: T = data
+        print(T::class.java)
+    }
 }
