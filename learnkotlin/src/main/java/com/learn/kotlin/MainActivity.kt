@@ -17,9 +17,15 @@ class MainActivity : AppCompatActivity() {
             println("结束 ")
         }
         Student().haiBury("")
+        Student().run {  }
     }
 }
 
-public fun UserInfo.haiBury(content:String){
+fun UserInfo.haiBury(content:String){
     print("当前对象:${this}")
+}
+
+inline fun <T> T.applyTest(block: T.() -> Unit): T {
+    block()
+    return this
 }
