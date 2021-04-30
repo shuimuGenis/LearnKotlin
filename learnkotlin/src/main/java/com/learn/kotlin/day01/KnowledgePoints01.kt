@@ -1,6 +1,6 @@
 package com.learn.kotlin.day01
 
-import com.learn.kotlin.bean.Student
+import java.io.File
 
 /**
  * @author shuimu{lwp}
@@ -9,7 +9,8 @@ import com.learn.kotlin.bean.Student
  */
 /**
  * （1）kotlin 中的变量和常量。
- * kotlin是强类型的语言，要求在声明变量和常量的时候，必须显示或隐式的指定变量,常量的类型,并且为其赋予初始值。
+ * kotlin是静态类型的编程语言,运行在jvm上。
+ * kotlin是 强类型的语言，要求在声明变量和常量的时候，必须显示或隐式的指定变量,常量的类型,并且为其赋予初始值。
  * 隐式是指:声明的变量或常量时不指定它们的类型,而是声明的同时进行初始化,这样就kotlin能根据初始化的值来推断该它们的具体类型。
  *
  * 声明变量的语法：var 变量名:变量类型=初始值
@@ -116,7 +117,7 @@ import com.learn.kotlin.bean.Student
  * as?-->安全转换运算符。用于进行类型强制转换时,类型不合适,强转失败的情况下,返回一个null值。如
  * person as? com.learn.kotlin.bean.Student;该行代表表示:尝试强制转换person对象的类型为Student类型,如果成功则返回该对象的student类型,如果强转失败,则返回null。
  *
- * "*"星符号-->分散运算符。用于把kotlin的数组中的元素分散开一个个进行 传递。如,声明 fun test(vararg element:String){代码};因为test函数的参数是一个可变参数,当
+ * "*"星符号-->可变参数展开操作符。用于把kotlin的数组中的元素分散开一个个进行 传递。如,声明 fun test(vararg element:String){代码};因为test函数的参数是一个可变参数,当
  * 我们把数组Array<String>类型的对象传递给test()函数时,直接传递是不行的,必须在Array<String>前面+"*"星符合,代表打散Array<String>数组,把数组中的元素一个个传递进去。
  *
  * is-->类型检查运算符。用于判断对象是否是某个类型的实例,相当于Java中的 instance of。 !is表示对象是否不是某个类型的实例。当我们使用is关键字判断了
@@ -166,5 +167,10 @@ import com.learn.kotlin.bean.Student
 class KnowledgePoints01 {
     val name: String by lazy {
         "555"
+    }
+
+    fun testFile() {
+        File("").readBytes()
+        File("").walk().filter { false }.filter { true }.forEach {  }
     }
 }

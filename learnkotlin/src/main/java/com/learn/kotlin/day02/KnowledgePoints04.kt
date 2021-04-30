@@ -1,3 +1,5 @@
+import com.learn.kotlin.day01.logInstance
+
 /**
  *kotlin 中的控制语句
  * if语句
@@ -86,6 +88,8 @@
  * [即:官方说法 inline修饰的方法，其函数式参数也是inline的]
  * 例如当method01()被inline修饰后,不仅仅把method01()的逻辑替换在调用处,连block匿名函数内的代码逻辑也被直接替换进去了。
  * 官方说法:inline对于"没有函数类型参数"的函数来说是没有性能提升的,只有对于"存在函数类型参数的函数,性能提升才会明显,因为避免频繁创建Function对象了"
+ * (3)内联函数中调用了别的内联函数,也会跟随这一当前的方法进行码替换，也就是内联函数会层层展开代码然后替换在调用处。
+ * 【当内联函数中调用内联函数，代码会层层展开替换在调用处】
  *
  * kotlin的局部返回
  * kotlin的局部返回通常都是针对"存在函数式参数的函数,当其函数式参数中内部逻辑代码存在return,break,continue等控制语句的情况"来说的。
@@ -100,29 +104,35 @@
  *注意:只有inline的函数式参数才可以自由决定Return是作用于顶层函数,哪个for循环或作用于函数式参数(指函数式参数自身,不是指声明函数式参数的那个函数)自身上,如何函数式参数不是inline的,那return只能作用于
  *  函数式参数自身,即只能写reture@内联函数名
  *
- *  kotlin的特殊注解
- *  kotlin中类中声明的属性,默认都是private修饰的
- *  @JvmFiled :这个注解表示:被修饰的属性将会是public修饰的,不会生成getter/setter方法。
+ * kotlin的特殊注解
+ * kotlin中类中声明的属性,默认都是private修饰的
+ * @JvmFiled :这个注解表示:被修饰的属性将会是public修饰的,不会生成getter/setter方法。
  */
 class KnowledgePoints04 {
-    lateinit var call: (String) -> Int
-
     fun test() {
-        call = { para ->
-            print(para)
-            0
-        }
         method01 {
-            print("内联函数的转换")
+            innerFun {
+                logInstance("innerFun 中的 block匿名函数")
+                return@innerFun
+            }
+            logInstance("method01 中的 block匿名函数")
             0
         }
-
-        innerFun {
-            print("nihao")
-            return@innerFun
-        }
-        print("调用了吗")
+        logInstance("执行了没")
     }
+
+    fun test2() {
+        method01 {
+            innerFun {
+                logInstance("innerFun 中的 block匿名函数")
+                return
+            }
+            logInstance("method01 中的 block匿名函数")
+            0
+        }
+        logInstance("执行了没")
+    }
+
 
     inline fun method01(block: () -> Int) {
         block()

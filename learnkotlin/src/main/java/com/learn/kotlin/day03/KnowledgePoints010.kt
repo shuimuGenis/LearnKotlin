@@ -42,7 +42,7 @@ package com.learn.kotlin.day03
  * 在object修饰的类中,被@JvmStatic 注解注释的方法,都会增加静态属性,变成静态方法。变成静态方法就能直接外部进行访问,而不需要通过INSTANCE对象了。
  *
  * 伴生对象与@JvmStatic注解
- * 伴生对象的本质就是内部类,而且该内部类是单例模式的,伴生对象中所有的方法都是通过单例对象去访问的。所以对kotlin来说,单例类中的属性和方法都能通过"类名.属性名/类名.方法名"的方式去访问
+ * 伴生对象的本质就是内部类,是 public static final修饰的内部类 ,而且该内部类是单例模式的,伴生对象中所有的方法都是通过单例对象去访问的。所以对kotlin来说,单例类中的属性和方法都能通过"类名.属性名/类名.方法名"的方式去访问
  * 但是对于Java来说,访问将会是"类名.Companion.方法名".那么,我就是想在伴生类中定义一个静态方法,应该怎么做呢?
  * 同样是@JvmStatic注解,被@JvmStatic 注解注释的方法,都会增加静态属性,变成静态方法就能直接外部进行访问,而不需要通过Companion对象了。
  *
@@ -81,6 +81,13 @@ class KnowledgePoints010 {
     fun test010(price: String = "10元", name: String) {
         print("price=$price;name=$name")
     }
+
+    companion object {
+
+        fun KnowledgePointsAction(){
+
+        }
+    }
 }
 
 object ActionMovie {
@@ -91,6 +98,7 @@ object ActionMovie {
     fun action(action: String?) {
         print(action)
     }
+
     fun action02(action: String?) {
         print(action)
     }
