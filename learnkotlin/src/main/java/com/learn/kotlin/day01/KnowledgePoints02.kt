@@ -28,6 +28,6 @@ package com.learn.kotlin.day01
  * android.support.v4.app.Fragment类,在java中我们可以根据fragment的包名创建目录"/android/support/v4/app",然后创建一个SafeFrament类放在我们创建的android/support/v4/app
  * 的目录下面，这样SafeFragment类就能访问"原android.support.v4.app"包下的类了，这就是java允许的,但在kotlin中通过internal关键来限制这种操作。
  */
-class KnowledgePoints02 {
+class KnowledgePoints02() {
 
 }

@@ -43,7 +43,7 @@ import com.learn.kotlin.bean.Student
  * 还没完,因为val会自动生成getter方法,因此生成的getter也是是静态方法,则生成方法的修饰符：public static final getxxx(){}
  * 同理
  * 当var修饰顶层属性时,表示修饰的属性是私有的,在顶层声明,则属性是静态的,var是可修改的,则属性没有被final修饰,所以是 私有的可修改的静态属性,即:private static
- * 还没完,因为var会自动生成getter/setter方法,因此生成的getter/setter也是是静态方法,则生成方法的修饰符：public static getxxx(){}
+ * 还没完,因为var会自动生成getter/setter方法,因此生成的getter/setter也是是静态方法,则生成方法的修饰符：public static final getxxx(){}
  *
  * kotlin中const修饰符的含义：
  * var/var修饰的属性都是"私有的"这一特性,只是通过自动生成公开的setter/getter方法去控制访问的权利而已,其中val更是final的不可修改的。
