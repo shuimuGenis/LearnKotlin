@@ -47,14 +47,27 @@ return { j, i -> j + i }
  * kotlin 的 闭包函数
  * 闭包函数就是能够读取或持有 “声明其存在的函数中的内部变量,内部状态"的函数。
  * 例如：
-fun closureMethod(i: Int): () -> Unit {
-     var memoryValue = 1
-      return fun(): Unit { memoryValue++ }
-}
+ * fun closureMethod(i: Int): () -> Unit {
+ *       var memoryValue = 1
+ *      return fun(): Unit { memoryValue++ }
+ *}
  *上面的函数中,closureMethod(i:Int):()->Unit{}函数不是闭包函数，闭包函数是其里面 声明的 fun():Unit{} 函数,它才是闭包函数。
  * 闭包函数 fun():Unit{} 中 能够访问其声明所在函数 closureMethod(i:Int):()->Int{}函数 的内部变量memoryValue，当调用closureMethod()方法时,
  * 该方法返回闭包函数 fun():Unit{},我们拿着"闭包函数 fun():Unit{}"去执行,这时注意:既然闭包函数作为返回值从closureMethod()中返回出来了,那么closureMethod()应该已经出栈了,那么closureMethod()
  * 中的资源被回收了,但其内声明的内部变量memoryValue(函数内部状态)则是被闭包函数持有了。闭包函数能够继续正常执行。
+ * 再举一个例子：有一个高阶函数methodC：
+ * fun methodC(block: () -> Unit) {
+ *     block()
+ * }
+ * 当我们在别的函数中调用methodC时。如果这么写methodC{...代码逻辑...}，那么这个"{}"lambda表达式也是一个闭包。因为这个“{}”lambda表达式本质是
+ * 一个匿名函数的优化写法，或者说缩写的写法而已。本质仍然是在一个函数中声明了一个函数，根据前面的定义：闭包函数就是能够读取或持有 “声明其存在的函数中的内部变量,内部状态"的函数。
+ * fun methodA(){
+ *   var num=0
+ *   methodC{...代码逻辑...}
+ * }
+ * 因此，"{...代码逻辑..."这个lambda表达式是能访问和保存num这个局部变量状态的。
+ *
+ *
  *
  * kotlin的匿名函数
  * 没有方法名的函数就是匿名函数。声明方法的格式：fun 函数名(参数名:参数类型...):返回值类型{}。
@@ -119,11 +132,24 @@ fun methodsA(): () -> Unit {
     return tempMethods
 }
 
+fun methodB() {
+    var num = 0
+    methodC {
+        num+=1
+        println("闭包测试：$num")
+    }
+    methodC {
+        num+=1
+        println("闭包测试：$num")
+    }
+}
+
+fun methodC(block: () -> Unit) {
+    block()
+}
+
 fun main() {
-    val methodsB = methodsA()
-    methodsB()
-    methodsB()
-    methodsB()
+    methodB()
 }
 
 val sentTo = fun Book.() {}

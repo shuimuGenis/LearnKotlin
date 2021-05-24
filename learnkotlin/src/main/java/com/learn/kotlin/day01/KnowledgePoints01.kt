@@ -174,3 +174,4 @@ class KnowledgePoints01 {
         File("").walk().filter { false }.filter { true }.forEach {  }
     }
 }
+object SmallWhite
