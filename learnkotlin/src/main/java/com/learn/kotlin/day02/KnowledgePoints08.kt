@@ -44,10 +44,10 @@ import UserInfo
  * 编译器处理该inline函数时,做了两个操作：
  * (1)直接把inline函数内部代码: val temp: T = data; print(T::class.java)替换到调用处
  * (2)因为调用的地方指定了具体的泛型类型,因此把内部代码中用到泛型的地方全部换成具体的类型。
- * 则T::class.java换成String::class.java; val temp: T = data换成 val temp:String = data
+ * 则T::class.java换成UserInfo::class.java; val temp: T = data换成 val temp:UserInfo = data
  * 整个内部代码变成：
- * val temp:String = data
- * print(String::class.java)
+ * val temp:UserInfo = data
+ * print(UserInfo::class.java)
  * 因此,替换过后,泛型从此不存在了,也就没有泛型擦除了。
  * 明白了原理之后，我们就根据原理,把Gson的解析方法优化一下,下面是高级写法:
  * inline fun <reified T> Gson.fromJson(json: String) = fromJson(json, T::class.java)
