@@ -6,7 +6,6 @@ package com.learn.kotlin.day01
  * @desc 资料来源：https://www.cnblogs.com/Jetictors/p/8031291.html
  */
 /**
- *
  * kotlin的声明函数格式：
  * fun 函数名(参数名:参数类型,参数名:参数类型...):返回值类型 {
 ...函数体...
@@ -40,6 +39,7 @@ package com.learn.kotlin.day01
  *
  * kotlin中的 高阶函数
  * 高阶函数就是该函数的入参是一个函数,或者该函数的返回值是一个函数,以一个函数作为入参或作为返回值的函数就是高阶函数。
+ * kotlin中的作用域函数是指：let,apply,run,also这些函数，其实这些函数就是高阶函数。
  * 例如：fun returnFun(): (Int, Int) -> Int {
 return { j, i -> j + i }
 }
