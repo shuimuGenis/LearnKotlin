@@ -1,6 +1,7 @@
 package com.learn.kotlin.day02
 
 import UserInfo
+import com.learn.kotlin.bean.Student
 
 /**
  * @author shuimu{lwp}
@@ -22,9 +23,9 @@ import UserInfo
  * 还可以通过where关键字约束 泛型多个上界。
  * 注意，kotlin中 泛型默认的上界类型都是"Any?"。
  * (3)类型擦除
- * kotlin的泛型只存在于编译期，运行期间类中所有使用到泛型的地方都被替换成具体的类型了，运行期间类是不保留泛型信息的，运行期间泛型被擦除,我们获取的是Array<Object>，因此我们 [无法判断一个对象是否是"某个声明了具体泛型类型的类"的实例]
- * 这点于java是类似的。例如:Array<Int>,Array<String> 这样的类型,虽然声明了泛型类型是Int，但是仅仅在编译期进行安全检查，运行期是不保留任何泛型信息的，泛型信息被擦除变成 IAnimal<Object>。
- * 这样的话,对于一个Array<Object>类型的对象,你根本不知道它是Array<Int>,Array<String>,Array<Float>,也就不知道Array<Object>中每个元素是Int还是String,所以循环数组时也只能每个元素都判断类型,然后来正确使用,避免类型转换错误的出现。
+ * kotlin的泛型只存在于编译期，运行期间类中所有使用到泛型的地方都被替换成具体的类型了，运行期间类是不保留泛型信息的，运行期间泛型被擦除,我们获取的是Array类型，是没有任何泛型信息的！
+ * 这点于java是相同的。例如:Array<Int>,Array<String> 这样的类型,虽然声明了泛型类型是Int，String，但是仅仅在编译期进行安全检查，运行期是不保留任何泛型信息的，泛型信息都会被擦除，最后我们拿到的对象类型都是Array类型，是没有任何泛型信息的。
+ * 这样的话,对于一个在运行时中的Array类型的对象,你根本不知道它泛型具体已经变成了什么类型，但是我们能拿到具体的泛型所指向的类型是因为内部做了强制转换.例如：Array<Int>,Array<String>,Array<Float>
  * 这就是 泛型的类型擦除带来的影响
  * 但是呢,kotlin通过 reified 关键字和inline关键字 做到了"智能的把泛型转换成使用时所指定的类型",因为转换成具体使用的类型了,自然就不存在什么泛型不泛型的,擦除也就不存在了。
  * 先介绍kotlin绕过jvm泛型擦除的原理,之后再展示用法。
@@ -55,27 +56,51 @@ import UserInfo
  * (4)型变
  * 型变背景:[假设有A,B两个类,设B是A的子类(即B:A),声明List<A>,List<B>,因为B:A,所以List<B>中的是可以当作List<A>的,但是编译器不这么认为,编译器认为 List<A>,List<B>是两个不同的东西,不能把List<B>当作List<A>的]
  * 那么,kotlin提供了对这一情况的支持,out和in两个关键字用于告诉编译器 泛型的继承关系,泛型的上界和下界。
- * 【被out关键字修饰的泛型,保留该泛型作为父类的能力,同时该泛型只能出现在成员方法的返回值中,不能用作入参。被称作协变】-->生产者
- * 【被in关键字修饰的泛型,保留该泛型作为子类的能力,同时该泛型只能出现在成员方法的入参中,不能用作返回值。被称作逆变】--消费者
+ * kotlin中的 out 和 in 就是 Java中的 ?通配符。
+ * 【被out关键字修饰的泛型,表示该泛型是指定类型或指定类型的子类。当该泛型声明在类上时，只能出现在成员方法的返回值中,不能用作入参，原因是不确定传入的是什么类型，只知道是指定泛型类型的子类。被称作协变】-->生产者
+ * 【被in关键字修饰的泛型,表示该泛型是指定类型或指定类型的父类。当该泛型声明在类上时，只能出现在成员方法的入参中,不能用作返回值，原因是不确定返回的是什么类型，只知道是指定泛型类型的父类。被称作逆变】--消费者
  * 就那背景中说的示例来讲解：因为A,B是继承关系,那么可以告诉编译器:"A是B的父类"这一点，通过out关键字来达成
  * class Animal<out D>
  * fun test() {
  *    val tempAnimalB = Animal<B>()
- *    var tempAnimalA = tempAnimalB
+ *    var tempAnimalA :Animal<A> = tempAnimalB
  * }
- * 上面的代码中,Animal的泛型D是被 out关键字修饰的,含义是:被out关键字修饰的泛型,保留该泛型作为父类的能力,同时该泛型只能出现在成员方法的返回值中,不能用作入参。
+ * 上面的代码中,Animal的泛型D是被 out关键字修饰的,
+ * 含义是:被out关键字修饰的泛型,表示该泛型只有是指定类型或指定类型的子类，都能通过编译。
  * 声明处型变 是指在类上声明泛型,并且声明泛型是协变还是逆变
  * 使用处型变 是指在方法上声明泛型,并且声明泛型是协变还是逆变
  * 仅仅是声明的地方不同而已。
  */
-class KnowledgePoints08 {
+class KnowledgePoints08<out R> {
 
     fun testChangeData() {
         changeData<UserInfo>(UserInfo("小米", 0))
     }
 
     inline fun <reified T> changeData(data: T) {
-        val temp: T = data
-        print(T::class.java)
+        var temp = mutableListOf(Student(), Student(), Student())
+        addStudent(temp)
+        var studentList = ArrayList<Student>()
+        var userInfoList: ArrayList<out UserInfo> = studentList
+        //这里演示了两种 out的用法哈。
+        var shop01 = Shop<Student>()
+        var shop02: Shop<UserInfo> = shop01
+    }
+
+    fun addStudent(fruit: MutableList<out Student>) {
+        //获取的时候，只能是通过Any?获取，in关键字表示传入的必须是Student
+        val any: Any? = fruit[0]
+    }
+
+    fun getUser(fruit: MutableList<out UserInfo>) {
+
+    }
+}
+
+class Shop<out D> {
+    //演示使用
+    fun testA(): D? {
+        //业务代码.....
+        return null
     }
 }

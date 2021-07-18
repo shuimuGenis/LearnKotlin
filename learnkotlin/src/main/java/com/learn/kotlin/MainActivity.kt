@@ -19,11 +19,11 @@ class MainActivity : AppCompatActivity() {
         Student().haiBury("")
         Student().apply {}
         Student().let { it.name }
-
+        var list = ArrayList<Student>()
     }
 }
 
-fun UserInfo.haiBury(content:String){
+fun UserInfo.haiBury(content: String) {
     print("当前对象:${this}")
 }
 
