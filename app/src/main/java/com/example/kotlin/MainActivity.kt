@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.util.Log
 import android.util.Log.i
 import android.view.View
+import android.view.Window
 import androidx.annotation.RequiresApi
 import com.example.java2kotlin.SAmTest
 import com.example.kotlin.coroutine.CoroutineActivity
@@ -30,6 +31,7 @@ class MainActivity : Activity(), View.OnClickListener {
     @RequiresApi(Build.VERSION_CODES.N)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        requestWindowFeature(Window.FEATURE_CUSTOM_TITLE)
         setContentView(R.layout.activity_main)
         go_to_day06.setOnClickListener(this)
         Go2StudyCoroutine.setOnClickListener(this)
@@ -200,13 +202,13 @@ class MainActivity : Activity(), View.OnClickListener {
         //测试集合
         val collectioOperation = CollectionOperationTest()
         collectioOperation.operationTest1()
-
-        val notNameTest = lambdaTest()
-        val notNmaeresult = notNameTest.computeFun(10, 10, notNameTest.notNameFun)
-
-        notNameTest.testLambdaA()
-
-        Log.i("zui", "notNameTest : $notNmaeresult")
+//
+//        val notNameTest = lambdaTest()
+//        val notNmaeresult = notNameTest.computeFun(10, 10, notNameTest.notNameFun)
+//
+//        notNameTest.testLambdaA()
+//
+//        Log.i("zui", "notNameTest : $notNmaeresult")
 
 
         //测试高阶函数
@@ -240,7 +242,6 @@ class MainActivity : Activity(), View.OnClickListener {
 //        SAmTest().SAMTest1()
         SAmTest().SAMTest2()
 
-//        Thread { IOStreamDemo().IOTest1() }.start()
         reflectDemo().reflectTest1()
         reflectDemo().reflectTest2()
         reflectDemo().reflectTest3()

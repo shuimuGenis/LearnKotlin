@@ -6,6 +6,7 @@ package com.learn.kotlin.day01
  * @desc 资料来源：https://www.cnblogs.com/Jetictors/p/8031291.html
  */
 /**
+ *
  * kotlin的声明函数格式：
  * fun 函数名(参数名:参数类型,参数名:参数类型...):返回值类型 {
 ...函数体...

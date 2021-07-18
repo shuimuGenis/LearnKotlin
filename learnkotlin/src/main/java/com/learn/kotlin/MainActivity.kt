@@ -17,7 +17,9 @@ class MainActivity : AppCompatActivity() {
             println("结束 ")
         }
         Student().haiBury("")
-        Student().run {  }
+        Student().apply {}
+        Student().let { it.name }
+
     }
 }
 

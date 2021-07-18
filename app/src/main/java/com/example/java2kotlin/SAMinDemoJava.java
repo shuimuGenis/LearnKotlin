@@ -20,4 +20,12 @@ public class SAMinDemoJava {
         Log.i("zui", "runnable list count by remove " + runnableList.toString());
         Example.cxIsNotEmpty("wojius");
     }
+
+    public static void main(String[] args) {
+        Object temp=":";
+        System.out.println(""+temp.getClass().getName());
+        temp=1;
+        System.out.println(""+temp.getClass().getName());
+    }
 }
+

@@ -29,5 +29,4 @@ package com.learn.kotlin.day01
  * 的目录下面，这样SafeFragment类就能访问"原android.support.v4.app"包下的类了，这就是java允许的,但在kotlin中通过internal关键来限制这种操作。
  */
 class KnowledgePoints02() {
-
 }
