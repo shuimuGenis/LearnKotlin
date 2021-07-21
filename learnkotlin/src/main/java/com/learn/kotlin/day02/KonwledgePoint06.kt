@@ -43,6 +43,7 @@
  * init代码块 --》java代码块
  * companion object-->Java中的静态方法，静态变量，companion中的init代码块==>java中的静态代码块。
  * object类中的init代码块-->java中的静态代码块
+ * Kotlin中的初始化顺序：伴生对象的init-->java的init-->java主构造函数-->java次构造函数。
  * kotlin中声明的内部类默认是静态内部类，只有inner关键字修饰的内部类才是非静态内部类。
  * 在kotlin中,非静态内部类调用外部类的方法或者属性时,应该这样写：super@外部类名.函数名() / super@外部类名.属性
  *
@@ -65,9 +66,13 @@
  * }
  */
 class KonwledgePoint06 {
-       constructor(userName: String)
+    constructor(userName: String)
 
-       companion object {
-              val test:String="banshengduixiang"
-       }
+    companion object {
+        init {
+            print("测试顺序")
+        }
+
+        val test: String = "banshengduixiang"
+    }
 }

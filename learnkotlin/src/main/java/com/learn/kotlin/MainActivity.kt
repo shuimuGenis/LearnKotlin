@@ -1,6 +1,5 @@
 package com.learn.kotlin
 
-import KnowledgePoints04
 import UserInfo
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
