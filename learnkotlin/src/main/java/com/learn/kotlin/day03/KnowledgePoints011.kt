@@ -58,3 +58,39 @@ class KnowledgePoints011 {
         UserInfo("xiaoming",18).apply({this.name})
     }
 }
+
+fun main() {
+    GlobalScope.launch {
+        postItem(Item("item"))
+        println("done")
+    }
+
+    println("in main")
+    Thread.sleep(2000)
+}
+
+suspend fun postItem(item: Item) {
+    val token = requestToken()
+    val post = createPost(token, item)
+    processPost(post)
+}
+
+suspend fun requestToken(): String {
+    print("Start request token ...")
+    Thread.sleep(1000)
+    println("... finish request token")
+    return "token"
+}
+
+suspend fun createPost(token: String, item: Item): String {
+    print("Start create Post ... $token, $item")
+    Thread.sleep(500)
+    println(" ... finish create Post")
+    return "ResponsePost"
+}
+
+fun processPost(post: String) {
+    println("process post, post=$post")
+}
+
+data class Item(val i: String = "item")
